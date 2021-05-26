@@ -55,7 +55,7 @@ export class KeyCrypt implements KeyCryptDef {
 
             let data = JSON.parse(decrypted.toString()) as UserInfoDef;
 
-            req.userInfo = data;
+            // req.userInfo = data;
         } catch (error) {
             // console.log("err", err.message)
             return ResponseGenerator.sendError(res, 401);
