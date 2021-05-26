@@ -1,6 +1,6 @@
 import Imap from "imap";
 import { inspect } from "util";
-import { EncryptionType } from "../index.model";
+import { ImapFuncDef } from ".";
 
 export class ImapFunc {
     private encryptionType;
@@ -8,10 +8,10 @@ export class ImapFunc {
     private password;
     private imapInstance: Imap | null = null;
 
-    constructor(encryption: EncryptionType, email: string, password: string) {
-        this.encryptionType = encryption;
-        this.email = email;
-        this.password = password;
+    constructor(imapInit: ImapFuncDef) {
+        this.encryptionType = imapInit.encryption;
+        this.email = imapInit.email;
+        this.password = imapInit.password;
     }
 
     initiateInstance() {
