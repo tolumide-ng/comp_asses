@@ -1,7 +1,11 @@
-import { EncryptionType } from "../index.model";
+import { Response } from "express";
+import { EncryptionTypeDef } from "../";
 
-export interface ImapFuncDef {
-    encryption: EncryptionType;
+export interface GetImapInboxDef {
     email: string;
     password: string;
+    encType: EncryptionTypeDef;
+    erroHandler: (error: {
+        message: string;
+    }) => Response<any, Record<string, any>> | undefined;
 }

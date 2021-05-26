@@ -1,5 +1,7 @@
 import { Request, Response } from "express";
-import { ImapFunc } from "../../helpers/mailFunctions/imap/index.imap";
+
+import { getImapInbox } from "../../helpers/mailFunctions/imap/index.imap";
+import { MailFunction } from "../../helpers/mailFunctions/index.mail";
 import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
 
 export class MailController {
@@ -7,15 +9,16 @@ export class MailController {
         try {
             const { email, password, serverType, encType } = req.body;
 
-            const allInbox = new ImapFunc({
-                encryption: encType,
+            const getUserInbox = new MailFunction({
                 email,
                 password,
+                serverType,
+                encryption: encType,
             });
 
-            allInbox.initiateInstance();
-
-            console.log("ALL OF THE INBOX???????/", allInbox);
+            if (serverType === "IMAP") {
+                getUserInbox.getInbox(getImapInbox, res);
+            }
         } catch (error) {
             return ResponseGenerator.sendError(res, 500);
         }

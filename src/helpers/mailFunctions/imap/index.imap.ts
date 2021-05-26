@@ -1,107 +1,75 @@
 import Imap from "imap";
-import { inspect } from "util";
-import { ImapFuncDef } from ".";
+import util from "util";
+
 import { ResponseGenerator } from "../../responseGenerator/index.helper";
+import { GetImapInboxDef } from ".";
+import { Response } from "express";
 
-export class ImapFunc {
-    private encryptionType;
-    private email;
-    private password;
-    private imapInstance: Imap | null = null;
+export function getImapInbox(props: GetImapInboxDef): void {
+    const imap = new Imap({
+        user: props.email,
+        password: props.password,
+        host: "imap.mail.yahoo.com",
+        port: 993,
+        tls: props.encType === "SSL/TLS",
+        autotls: props.encType === "STARTTLS" ? "always" : undefined,
+    });
 
-    constructor(imapInit: ImapFuncDef) {
-        this.encryptionType = imapInit.encryption;
-        this.email = imapInit.email;
-        this.password = imapInit.password;
+    function openInbox(cb: (err: any, box: any) => void) {
+        imap.openBox("INBOX", true, cb);
     }
 
-    initiateInstance() {
-        this.imapInstance = new Imap({
-            user: this.email,
-            password: this.password,
-            host: "imap.gmx.com",
-            port: 993,
-            tls: this.encryptionType === "SSL/TLS",
-            autotls: this.encryptionType === "STARTTLS" ? "always" : "",
-        });
-
-        this.receiveInbox();
-    }
-
-    openInbox(callback: (err: any, box: any) => void) {
-        this.imapInstance?.openBox("INBOX", true, callback);
-    }
-
-    receiveInbox() {
-        this.imapInstance?.once("read", () => {
-            this.openInbox((err: any, box: any) => {
-                if (err) {
-                    throw err;
-                }
-
-                const theFetch = this.imapInstance?.seq.fetch("1:3", {
-                    bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
-                    struct: true,
-                });
-
-                theFetch?.on("message", function (msg, seqno) {
-                    console.log("Message #%d", seqno);
-                    const prefix = `(#${seqno})`;
-
-                    // does this event listener mean I can use this part to determine when I want and do not need the body
-                    msg.on("body", function (stream, info) {
-                        let buffer = "";
-                        stream.on("data", function (chunk) {
-                            buffer += chunk.toString("utf8");
-                        });
-
-                        stream.once("end", function () {
-                            console.log(
-                                `${prefix} Parsed header: %s, ${inspect(
-                                    Imap.parseHeader(buffer),
-                                )}`,
-                            );
-                        });
+    imap.once("ready", function () {
+        openInbox(function (err: any, box: any) {
+            if (err) throw err;
+            const f = imap.seq.fetch("1:3", {
+                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+                struct: true,
+            });
+            f.on("message", function (msg: any, seqno: any) {
+                console.log("Message #%d", seqno);
+                const prefix = "(#" + seqno + ") ";
+                msg.on("body", function (stream: any, info: any) {
+                    let buffer = "";
+                    stream.on("data", function (chunk: any) {
+                        buffer += chunk.toString("utf8");
                     });
-
-                    msg.once("attributes", function (attrs) {
+                    stream.once("end", function () {
                         console.log(
-                            `${prefix} Attributes %s ${inspect(
-                                attrs,
-                                false,
-                                8,
-                            )}`,
+                            prefix + "Parsed header: %s",
+                            util.inspect(Imap.parseHeader(buffer)),
                         );
                     });
-
-                    msg.once("end", function () {
-                        console.log(`${prefix} finished`);
-                    });
                 });
-
-                theFetch?.once("error", function (err) {
-                    console.log(`Fetch Error: ${err}`);
+                msg.once("attributes", function (attrs: any) {
+                    console.log(
+                        prefix + "Attributes: %s",
+                        util.inspect(attrs, false, 8),
+                    );
                 });
-
-                const endInstance = () => this.imapInstance?.end();
-
-                theFetch?.once("end", function () {
-                    console.log("Done fetching all messages");
-                    endInstance();
+                msg.once("end", function () {
+                    console.log(prefix + "Finished");
                 });
             });
+            f.once("error", function (err: any) {
+                console.log("Fetch error: " + err);
+            });
+            f.once("end", function () {
+                console.log("Done fetching all messages!");
+                imap.end();
+            });
         });
+    });
 
-        this.imapInstance?.once("error", function (err: string) {
-            console.log("THE ERROR", err);
-            return "Authentication Error";
-            // return ResponseGenerator.sendError(res, 401);
-        });
+    imap.once("error", function (err: { message: string }) {
+        console.log("{{{{{{{{{{{{{{{{{{ ERROR", err);
+        props.erroHandler(err);
+        return ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>===================";
+    });
 
-        this.imapInstance?.once("end", function () {
-            console.log("Connection ended");
-        });
+    imap.once("end", function () {
+        console.log("Connection ended");
+    });
 
-        this.imapInstance?.connect();
-    }
+    imap.connect();
 }
