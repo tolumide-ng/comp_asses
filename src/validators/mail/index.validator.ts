@@ -1,6 +1,10 @@
 import { RequestHandler } from "express";
 import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
 
+const validEncryptionTypes = ["Unencrypted", "SSL/TLS", "STARTTLS"];
+
+const validServerType = ["IMAP", "POP3"];
+
 export const hasToken: RequestHandler = async (req, res, next) => {
     try {
         let token = req.headers.authorization;
@@ -41,5 +45,29 @@ export const hasValidEmail: RequestHandler = async (req, res, next) => {
         res,
         400,
         "Please provide a valid email address",
+    );
+};
+
+export const hasValidEncryptionType: RequestHandler = (req, res, next) => {
+    if (validEncryptionTypes.includes(req.body?.encTypee)) {
+        return next();
+    }
+
+    return ResponseGenerator.sendError(
+        res,
+        400,
+        "Please add a vlaid encryption type",
+    );
+};
+
+export const hasValidServerType: RequestHandler = (req, res, next) => {
+    if (validServerType.includes(req.body.serverType)) {
+        return next();
+    }
+
+    return ResponseGenerator.sendError(
+        res,
+        400,
+        "Please add a valid server type",
     );
 };
