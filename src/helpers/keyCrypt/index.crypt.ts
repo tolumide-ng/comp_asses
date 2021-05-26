@@ -54,8 +54,7 @@ export class KeyCrypt implements KeyCryptDef {
             decrypted = Buffer.concat([decrypted, decipher.final()]);
 
             let data = JSON.parse(decrypted.toString()) as UserInfoDef;
-
-            req.userInfo = data;
+            // req.userInfo = data;
 
             return decrypted.toString();
         } catch (error) {

@@ -19,6 +19,7 @@
     "@types/chai": "^4.2.18",
     "@types/cors": "^2.8.10",
     "@types/express": "^4.17.12",
+    "@types/imap": "^0.8.34",
     "@types/mocha": "^8.2.2",
     "@types/node": "^15.6.1",
     "@typescript-eslint/eslint-plugin": "^4.25.0",
@@ -38,7 +39,8 @@
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
-    "express": "^4.17.1"
+    "express": "^4.17.1",
+    "imap": "^0.8.19"
   },
   "husky": {
     "hooks": {
