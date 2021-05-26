@@ -10,8 +10,8 @@ export function getImapInbox(props: GetImapInboxDef): void {
         user: props.email,
         password: props.password,
         host: "imap.mail.yahoo.com",
-        port: 993,
-        tls: props.encType === "SSL/TLS",
+        port: props.port,
+        tls: ["SSL/TLS", "STARTTLS"].includes(props.encType),
         autotls: props.encType === "STARTTLS" ? "always" : undefined,
     });
 
@@ -23,7 +23,7 @@ export function getImapInbox(props: GetImapInboxDef): void {
         openInbox(function (err: any, box: any) {
             if (err) throw err;
             const f = imap.seq.fetch("1:3", {
-                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE) BODY",
                 struct: true,
             });
             f.on("message", function (msg: any, seqno: any) {
@@ -38,6 +38,11 @@ export function getImapInbox(props: GetImapInboxDef): void {
                         console.log(
                             prefix + "Parsed header: %s",
                             util.inspect(Imap.parseHeader(buffer)),
+                        );
+                        console.log(
+                            "+++++++++++++++++++++++++++++++++ got bodfy",
+                            buffer,
+                            "+++++++++++++++++++++++++++++++++++++)))",
                         );
                     });
                 });
@@ -62,9 +67,7 @@ export function getImapInbox(props: GetImapInboxDef): void {
     });
 
     imap.once("error", function (err: { message: string }) {
-        console.log("{{{{{{{{{{{{{{{{{{ ERROR", err);
         props.erroHandler(err);
-        return ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>===================";
     });
 
     imap.once("end", function () {
