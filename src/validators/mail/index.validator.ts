@@ -22,6 +22,7 @@ export const hasToken: RequestHandler = async (req, res, next) => {
 };
 
 export const hasLogin: RequestHandler = async (req, res, next) => {
+    console.log("==============+++++++++====================", req.body);
     if (!req.body.password || !req.body.email) {
         return ResponseGenerator.sendError(res, 400);
     }
@@ -49,14 +50,14 @@ export const hasValidEmail: RequestHandler = async (req, res, next) => {
 };
 
 export const hasValidEncryptionType: RequestHandler = (req, res, next) => {
-    if (validEncryptionTypes.includes(req.body?.encTypee)) {
+    if (validEncryptionTypes.includes(req.body?.encType)) {
         return next();
     }
 
     return ResponseGenerator.sendError(
         res,
         400,
-        "Please add a vlaid encryption type",
+        "Please add a valid encryption type",
     );
 };
 

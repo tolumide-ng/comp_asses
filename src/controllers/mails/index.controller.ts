@@ -13,6 +13,8 @@ export class MailController {
                 password,
             });
 
+            allInbox.initiateInstance();
+
             console.log("ALL OF THE INBOX???????/", allInbox);
         } catch (error) {
             return ResponseGenerator.sendError(res, 500);

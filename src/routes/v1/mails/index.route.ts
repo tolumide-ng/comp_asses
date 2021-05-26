@@ -4,6 +4,6 @@ import { MailMiddleware } from "../../../middlewares/mails";
 
 const router = Router();
 
-router.get("/all", MailMiddleware.getAllInbox, MailController.getAllInbox);
+router.get("/all", MailMiddleware.getAllInbox(), MailController.getAllInbox);
 
 export default router;

@@ -1,6 +1,7 @@
 import Imap from "imap";
 import { inspect } from "util";
 import { ImapFuncDef } from ".";
+import { ResponseGenerator } from "../../responseGenerator/index.helper";
 
 export class ImapFunc {
     private encryptionType;
@@ -93,6 +94,8 @@ export class ImapFunc {
 
         this.imapInstance?.once("error", function (err: string) {
             console.log("THE ERROR", err);
+            return "Authentication Error";
+            // return ResponseGenerator.sendError(res, 401);
         });
 
         this.imapInstance?.once("end", function () {

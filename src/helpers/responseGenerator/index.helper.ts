@@ -29,15 +29,14 @@ export class ResponseGenerator extends Utils {
 
     static composeHandlers(...middleware: RequestHandler[]): RequestHandler {
         return middleware.reduce(
-            (currentMiddleware, nextMiddleware) => (req, res, next) => {
+            (currentMiddleware, nextMiddleware) => (req, res, next) =>
                 currentMiddleware(req, res, (err: any) => {
                     if (err) {
                         return next(err);
                     }
 
                     nextMiddleware(req, res, next);
-                });
-            },
+                }),
         );
     }
 }
