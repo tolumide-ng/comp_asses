@@ -47,7 +47,7 @@ export class MailFunction {
             }
         }
 
-        // this.encryptionType === "Unencrypted"
-        return 143;
+        // POP3 this.encryptionType === "Unencrypted"
+        return 110;
     }
 }
