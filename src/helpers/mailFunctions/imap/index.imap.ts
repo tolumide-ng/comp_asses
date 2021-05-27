@@ -20,7 +20,7 @@ export function getImapInbox(props: GetFuncInboxDef): void {
         openInbox(function (err: any, box: any) {
             if (err) throw err;
             const f = imap.seq.fetch("1:3", {
-                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE) BODY",
+                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
                 struct: true,
             });
             f.on("message", function (msg: any, seqno: any) {

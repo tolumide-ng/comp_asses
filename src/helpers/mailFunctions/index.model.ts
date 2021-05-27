@@ -20,6 +20,7 @@ export interface GetFuncInboxDef {
     encType: EncryptionTypeDef;
     port: PortTypeDef;
     host: string;
+    getFrom?: number;
     errorHandler: (error: {
         message: string;
     }) => Response<any, Record<string, any>> | undefined;

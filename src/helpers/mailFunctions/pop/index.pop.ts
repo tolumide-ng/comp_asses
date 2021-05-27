@@ -1,6 +1,8 @@
 import Pop3Client from "poplib";
 import { GetFuncInboxDef } from "../";
 
+// 9649 ----- 9550
+
 // /**
 //  * @param {Object} props - The parameters of the function
 //  * @param {Function} props.errorHandler - The error handler function
@@ -76,6 +78,32 @@ export function getPop3Inbox(props: GetFuncInboxDef) {
             } else {
                 console.log("LIST success with " + msgcount + " element(s)");
 
+                // console.log("THE TOTAL DATA OBTAINED>>>>>>>>>>", data);
+                let buffer = "";
+
+                // console.log(data);
+                // ab2str(data);
+                console.log("the data", data);
+                const b = Array.isArray(data);
+
+                console.log(b);
+
+                // console.log("TO STRING????", data.toString());
+
+                // data.on("data", function (chunk: any) {
+                //     buffer += chunk.toString("utf8");
+                // });
+
+                // data.once("end", () => {
+                //     console.log(">>>>>>>>>> DONE", buffer);
+                // });
+
+                // let buffer = "";
+
+                // ab2str(data);
+
+                // console.log("WHAT THE RAW DATA IS>>>>>>>>>>>", rawdata);
+
                 if (msgcount > 0) client.retr(1);
                 else client.quit();
             }
@@ -87,8 +115,16 @@ export function getPop3Inbox(props: GetFuncInboxDef) {
         function (status: boolean, msgnumber: any, data: any, rawdata: any) {
             if (status === true) {
                 console.log("RETR success for msgnumber " + msgnumber);
-                client.dele(msgnumber);
-                client.quit();
+                // client.dele(msgnumber);
+                // client.quit();
+
+                console.log("typeof status", typeof status);
+                console.log("typeof of msgnumber", msgnumber);
+                console.log("typeof data", typeof data);
+                console.log("typeof of rawdata", typeof rawdata);
+
+                // console.log("THE DATA>>>>>>>>>", data);
+                // console.log("THE RAWDATA>>>>>>>", rawdata);
             } else {
                 console.log("RETR failed for msgnumber " + msgnumber);
                 client.quit();
