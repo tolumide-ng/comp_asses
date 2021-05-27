@@ -7,7 +7,7 @@ export interface GetImapInboxDef {
     password: string;
     encType: EncryptionTypeDef;
     port: PortTypeDef;
-    erroHandler: (error: {
+    errorHandler: (error: {
         message: string;
     }) => Response<any, Record<string, any>> | undefined;
 }

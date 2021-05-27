@@ -41,7 +41,7 @@
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
     "imap": "^0.8.19",
-    "yapople": "^0.4.1"
+    "poplib": "^0.1.7"
   },
   "husky": {
     "hooks": {

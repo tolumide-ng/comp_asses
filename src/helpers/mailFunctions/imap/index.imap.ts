@@ -1,15 +1,12 @@
 import Imap from "imap";
-import util from "util";
+import Util from "util";
+import { GetFuncInboxDef } from "../";
 
-import { ResponseGenerator } from "../../responseGenerator/index.helper";
-import { GetImapInboxDef } from ".";
-import { Response } from "express";
-
-export function getImapInbox(props: GetImapInboxDef): void {
+export function getImapInbox(props: GetFuncInboxDef): void {
     const imap = new Imap({
         user: props.email,
         password: props.password,
-        host: "imap.mail.yahoo.com",
+        host: props.host,
         port: props.port,
         tls: ["SSL/TLS", "STARTTLS"].includes(props.encType),
         autotls: props.encType === "STARTTLS" ? "always" : undefined,
@@ -37,7 +34,7 @@ export function getImapInbox(props: GetImapInboxDef): void {
                     stream.once("end", function () {
                         console.log(
                             prefix + "Parsed header: %s",
-                            util.inspect(Imap.parseHeader(buffer)),
+                            Util.inspect(Imap.parseHeader(buffer)),
                         );
                         console.log(
                             "+++++++++++++++++++++++++++++++++ got bodfy",
@@ -49,7 +46,7 @@ export function getImapInbox(props: GetImapInboxDef): void {
                 msg.once("attributes", function (attrs: any) {
                     console.log(
                         prefix + "Attributes: %s",
-                        util.inspect(attrs, false, 8),
+                        Util.inspect(attrs, false, 8),
                     );
                 });
                 msg.once("end", function () {
@@ -67,7 +64,7 @@ export function getImapInbox(props: GetImapInboxDef): void {
     });
 
     imap.once("error", function (err: { message: string }) {
-        props.erroHandler(err);
+        props.errorHandler(err);
     });
 
     imap.once("end", function () {
