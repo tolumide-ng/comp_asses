@@ -2,7 +2,8 @@ import { Response } from "express";
 import { MailFuncDef } from ".";
 import { ResponseGenerator } from "../responseGenerator/index.helper";
 import { GetFuncInboxDef, PortDictDef, PortTypeDef } from "./index.model";
-import { mailErrorFunc } from "./mailErrors";
+import { mailErrorFunc } from "./mailResponses";
+import { mailSuccessFunc } from "./mailResponses/index.success";
 
 export class MailFunction {
     private password;
@@ -41,6 +42,7 @@ export class MailFunction {
             errorHandler: mailErrorFunc(res),
             port: this.port,
             host: this.host,
+            successHandler: mailSuccessFunc(res),
         });
     }
 

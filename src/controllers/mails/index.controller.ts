@@ -2,8 +2,7 @@ import { Request, Response } from "express";
 
 import { getImapInbox } from "../../helpers/mailFunctions/imap/index.imap";
 import { MailFunction } from "../../helpers/mailFunctions/index.mail";
-import { getPopInbox } from "../../helpers/mailFunctions/pop/index.pop";
-import { getPop3Inbox } from "../../helpers/mailFunctions/pop3/index.pop3";
+import { getPop3Inbox } from "../../helpers/mailFunctions/pop3";
 import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
 
 export class MailController {
@@ -29,7 +28,6 @@ export class MailController {
             }
 
             if (serverType === "POP3") {
-                // getUserInbox.getInbox(getPopInbox, res);
                 await getUserInbox.getInbox(getPop3Inbox, res);
             }
         } catch (error) {
