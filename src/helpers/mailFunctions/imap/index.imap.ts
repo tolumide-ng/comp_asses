@@ -10,7 +10,7 @@ const fetchArgs = {
         msgFrom: `${msgNumber}:*`,
     }),
     one: (msgNumber: number) => ({
-        query: ["HEADER.FIELDS (TO FROM SUBJECT DATE)", "TEXT"],
+        query: "",
         msgFrom: String(msgNumber),
     }),
 };
@@ -40,72 +40,54 @@ export function getImapInbox(props: GetFuncInboxDef): void {
             });
 
             const userInboxMessages: UserMessagesDef = { data: [] };
-            let userSpecificMessage: { [key: string]: any } = {};
+            const userSpecificMessage: { [key: string]: any } = { data: {} };
 
             fetchRequest.on("message", function (msg: any, seqno: any) {
                 msg.on("body", function (stream: any, info: any) {
                     let buffer = "";
 
-                    // ===========
-                    if (props.action === "one") {
-                        simpleParser(stream, (err: any, parsed: any) => {
-                            // if (err) throw err;
-                            // console.log("PARSED EMAIL>>>>>>>>>>>>", parsed);
-
-                            // if (parsed.textAsHtml) {
-                            userSpecificMessage.html = parsed.textAsHtml;
-
-                            // console.log(
-                            //     "DONE NOW>>>>>>>>",
-                            //     userSpecificMessage,
-                            // );
-                            // }
-                        });
-                    }
-
                     stream.on("data", function (chunk: any) {
                         buffer += chunk.toString("utf8");
                     });
+
+                    (async () => {
+                        const parsed = await simpleParser(stream);
+                        userSpecificMessage.data.html = parsed.textAsHtml;
+                    })();
+
                     stream.once("end", function () {
                         const parseHeader = Imap.parseHeader(buffer);
 
-                        // console.log("PARSED HERADER>>>>>>>", parseHeader);
-
                         const { date, from, to, subject } = parseHeader;
 
-                        if (subject) {
-                            const modifiedFrom = from
-                                ? from[0].split("<").join(" ").split(">")
-                                : [];
+                        const modifiedFrom = from
+                            ? from[0].split("<").join(" ").split(">")
+                            : [];
 
-                            const headerDetails = {
-                                dateStr: date[0],
-                                from: {
-                                    address:
-                                        modifiedFrom?.length > 1 &&
-                                        modifiedFrom[1],
-                                    name:
-                                        modifiedFrom?.length > 1 &&
-                                        modifiedFrom[0],
-                                },
-                                to: to[0],
-                                subject: subject?.length ? subject[0] : "",
+                        const headerDetails = {
+                            dateStr: date[0],
+                            from: {
+                                address:
+                                    modifiedFrom?.length > 1 && modifiedFrom[1],
+                                name:
+                                    modifiedFrom?.length > 1 && modifiedFrom[0],
+                            },
+                            to: to[0],
+                            subject: subject?.length ? subject[0] : "",
+                        };
+
+                        if (props.action === "all") {
+                            userInboxMessages.data.push(headerDetails);
+                        } else if (props.action === "one") {
+                            userSpecificMessage.data = {
+                                ...userSpecificMessage.data,
+                                ...headerDetails,
                             };
-
-                            if (props.action === "all") {
-                                userInboxMessages.data.push(headerDetails);
-                            } else if (props.action === "one") {
-                                userSpecificMessage = {
-                                    ...userSpecificMessage,
-                                    ...headerDetails,
-                                };
-                            }
                         }
                     });
                 });
 
                 msg.once("attributes", function (attrs: any) {
-                    console.log("the attributes>>>>>>>>>>>>", attrs);
                     const attributes = {
                         priority: attrs.flags,
                         date: attrs.date,
@@ -121,20 +103,14 @@ export function getImapInbox(props: GetFuncInboxDef): void {
                             ...attributes,
                         };
                     } else if (props.action === "one") {
-                        userSpecificMessage = {
-                            ...userSpecificMessage,
+                        userSpecificMessage.data = {
+                            ...userSpecificMessage.data,
                             ...attributes,
                         };
                     }
                 });
 
-                msg.once("end", function () {
-                    // console.log(
-                    //     "WHAT IT IS AT THIS POINT!!!!!!!!!!!!!>>>>>>>>",
-                    //     userSpecificMessage,
-                    // );
-                    // console.log(prefix + "Finished");
-                });
+                msg.once("end", function () {});
             });
             fetchRequest.once("error", function (err: any) {
                 return props.errorHandler(err);
@@ -145,7 +121,9 @@ export function getImapInbox(props: GetFuncInboxDef): void {
                 if (props.action === "all") {
                     props.successHandler(userInboxMessages);
                 } else if (props.action === "one") {
-                    props.successHandler(userSpecificMessage);
+                    setTimeout(() => {
+                        props.successHandler(userSpecificMessage);
+                    }, 200);
                 }
             });
         });

@@ -22,7 +22,6 @@ export const hasToken: RequestHandler = async (req, res, next) => {
 };
 
 export const hasLogin: RequestHandler = async (req, res, next) => {
-    console.log("==============+++++++++====================", req.body);
     if (!req.body.password || !req.body.email) {
         return ResponseGenerator.sendError(res, 400);
     }
@@ -73,17 +72,14 @@ export const hasValidServerType: RequestHandler = (req, res, next) => {
     );
 };
 
-
-
 export const hasValidId: RequestHandler = (req, res, next) => {
-    if(Number(req.params.id) > 0){
-        return next()
+    if (Number(req.params.id) > 0) {
+        return next();
     }
-
 
     return ResponseGenerator.sendError(
         res,
         400,
         "Message Id must be a valid integer greater than 0",
     );
-}
+};
