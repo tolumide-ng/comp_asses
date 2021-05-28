@@ -2,6 +2,18 @@ import Imap from "imap";
 import Util from "util";
 import { GetFuncInboxDef } from "../";
 import { UserMessagesDef } from "../index.model";
+import { simpleParser } from "mailparser";
+
+const fetchArgs = {
+    all: (msgNumber: number) => ({
+        query: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
+        msgFrom: `${msgNumber}:*`,
+    }),
+    one: (msgNumber: number) => ({
+        query: ["HEADER.FIELDS (TO FROM SUBJECT DATE)", "TEXT"],
+        msgFrom: String(msgNumber),
+    }),
+};
 
 export function getImapInbox(props: GetFuncInboxDef): void {
     const imap = new Imap({
@@ -20,71 +32,121 @@ export function getImapInbox(props: GetFuncInboxDef): void {
     imap.once("ready", function () {
         openInbox(function (err: any, box: any) {
             if (err) throw err;
-            const f = imap.seq.fetch("1:*", {
-                bodies: "HEADER.FIELDS (FROM TO SUBJECT DATE)",
-                // struct: true,
+
+            const fetchParams = fetchArgs[props.action](props.msgNumber ?? 1);
+
+            const fetchRequest = imap.seq.fetch(fetchParams.msgFrom, {
+                bodies: fetchParams.query,
             });
 
             const userInboxMessages: UserMessagesDef = { data: [] };
-            f.on("message", function (msg: any, seqno: any) {
-                console.log("Message #%d", seqno);
-                const prefix = "(#" + seqno + ") ";
+            let userSpecificMessage: { [key: string]: any } = {};
+
+            fetchRequest.on("message", function (msg: any, seqno: any) {
                 msg.on("body", function (stream: any, info: any) {
                     let buffer = "";
+
+                    // ===========
+                    if (props.action === "one") {
+                        simpleParser(stream, (err: any, parsed: any) => {
+                            // if (err) throw err;
+                            // console.log("PARSED EMAIL>>>>>>>>>>>>", parsed);
+
+                            // if (parsed.textAsHtml) {
+                            userSpecificMessage.html = parsed.textAsHtml;
+
+                            // console.log(
+                            //     "DONE NOW>>>>>>>>",
+                            //     userSpecificMessage,
+                            // );
+                            // }
+                        });
+                    }
+
                     stream.on("data", function (chunk: any) {
                         buffer += chunk.toString("utf8");
                     });
                     stream.once("end", function () {
                         const parseHeader = Imap.parseHeader(buffer);
 
-                        // console.log("PARSED HEADER", parseHeader);
+                        // console.log("PARSED HERADER>>>>>>>", parseHeader);
 
                         const { date, from, to, subject } = parseHeader;
 
-                        const modifiedFrom = from[0]
-                            .split("<")
-                            .join(" ")
-                            .split(">");
+                        if (subject) {
+                            const modifiedFrom = from
+                                ? from[0].split("<").join(" ").split(">")
+                                : [];
 
-                        userInboxMessages.data.push({
-                            dateStr: date[0],
-                            from: {
-                                address: modifiedFrom[1],
-                                name: modifiedFrom[0],
-                            },
-                            to: to[0],
-                            subject: subject?.length ? subject[0] : "",
-                        });
+                            const headerDetails = {
+                                dateStr: date[0],
+                                from: {
+                                    address:
+                                        modifiedFrom?.length > 1 &&
+                                        modifiedFrom[1],
+                                    name:
+                                        modifiedFrom?.length > 1 &&
+                                        modifiedFrom[0],
+                                },
+                                to: to[0],
+                                subject: subject?.length ? subject[0] : "",
+                            };
+
+                            if (props.action === "all") {
+                                userInboxMessages.data.push(headerDetails);
+                            } else if (props.action === "one") {
+                                userSpecificMessage = {
+                                    ...userSpecificMessage,
+                                    ...headerDetails,
+                                };
+                            }
+                        }
                     });
                 });
 
                 msg.once("attributes", function (attrs: any) {
-                    console.log(
-                        prefix + "Attributes: %s",
-                        Util.inspect(attrs, false, 8),
-                    );
-                    userInboxMessages.data[userInboxMessages.data.length - 1][
-                        "date"
-                    ] = attrs.date;
-                    userInboxMessages.data[userInboxMessages.data.length - 1][
-                        "priority"
-                    ] = attrs.flags;
-                    userInboxMessages.data[userInboxMessages.data.length - 1][
-                        "messageId"
-                    ] = attrs.uid;
+                    console.log("the attributes>>>>>>>>>>>>", attrs);
+                    const attributes = {
+                        priority: attrs.flags,
+                        date: attrs.date,
+                        messagedId: attrs.uid,
+                    };
+                    if (props.action === "all") {
+                        userInboxMessages.data[
+                            userInboxMessages.data.length - 1
+                        ] = {
+                            ...userInboxMessages.data[
+                                userInboxMessages.data.length - 1
+                            ],
+                            ...attributes,
+                        };
+                    } else if (props.action === "one") {
+                        userSpecificMessage = {
+                            ...userSpecificMessage,
+                            ...attributes,
+                        };
+                    }
                 });
+
                 msg.once("end", function () {
+                    // console.log(
+                    //     "WHAT IT IS AT THIS POINT!!!!!!!!!!!!!>>>>>>>>",
+                    //     userSpecificMessage,
+                    // );
                     // console.log(prefix + "Finished");
                 });
             });
-            f.once("error", function (err: any) {
-                // console.log("Fetch error: " + err);
+            fetchRequest.once("error", function (err: any) {
                 return props.errorHandler(err);
             });
-            f.once("end", function () {
-                console.log("Done fetching all messages!");
+            fetchRequest.once("end", function () {
                 imap.end();
-                props.successHandler(userInboxMessages);
+
+                if (props.action === "all") {
+                    props.successHandler(userInboxMessages);
+                } else if (props.action === "one") {
+                    props.successHandler(userSpecificMessage);
+                }
             });
         });
     });
@@ -94,7 +156,8 @@ export function getImapInbox(props: GetFuncInboxDef): void {
     });
 
     imap.once("end", function () {
-        console.log("Connection ended");
+        // console.log("Connection ended");
+        //
     });
 
     imap.connect();
