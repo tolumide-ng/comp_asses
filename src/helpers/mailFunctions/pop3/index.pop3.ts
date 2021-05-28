@@ -1,5 +1,5 @@
 import { Client, Message } from "yapople";
-import { GetFuncInboxDef } from "../index.model";
+import { GetFuncInboxDef, UserMessagesDef } from "../index.model";
 
 export async function getPop3Inbox(props: GetFuncInboxDef) {
     console.log("HERE NOW---------------");
@@ -13,7 +13,7 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
     };
     const client = new Client(config);
 
-    const usersMessages: Array<{ [key: string]: string | Date | object }> = [];
+    const usersMessages: UserMessagesDef = { data: [] };
     let userSpecificMessage: Message[] = [];
 
     try {
@@ -30,11 +30,11 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
             const messages = await client.retrieveAll();
             messages.forEach((message) => {
                 const { date, messageId, priority, from, subject } = message;
-                usersMessages.push({
+                usersMessages.data.push({
                     date,
                     subject,
                     priority,
-                    from,
+                    from: from[0],
                     messageId,
                 });
             });

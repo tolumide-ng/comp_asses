@@ -40,3 +40,7 @@ export interface PortDictDef {
         [key: string]: PortTypeDef;
     };
 }
+
+export interface UserMessagesDef {
+    data: Array<{ [key: string]: string | Date | object }>;
+}
