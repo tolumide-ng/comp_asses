@@ -6,12 +6,15 @@ export type ServerTypeDef = "POP3" | "IMAP";
 
 export type PortTypeDef = 993 | 143 | 110 | 995;
 
+export type FetchActionTypeDef = "all" | "one";
+
 export interface MailFuncDef {
     email: string;
     password: string;
     encryption: EncryptionTypeDef;
     serverType: ServerTypeDef;
     host: string;
+    action: FetchActionTypeDef;
 }
 
 export interface GetFuncInboxDef {
@@ -27,6 +30,7 @@ export interface GetFuncInboxDef {
     successHandler: (
         info: object,
     ) => Response<any, Record<string, any>> | undefined;
+    action: FetchActionTypeDef;
 }
 
 export interface PortDictDef {

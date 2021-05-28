@@ -12,6 +12,7 @@ export class MailFunction {
     private encryptionType;
     private port;
     private host;
+    private action;
 
     portNumber: PortDictDef = {
         IMAP: {
@@ -32,6 +33,7 @@ export class MailFunction {
         this.serverType = mailFunc.serverType;
         this.host = mailFunc.host;
         this.port = this.getPort();
+        this.action = mailFunc.action;
     }
 
     getInbox(makeCall: (props: GetFuncInboxDef) => void, res: Response) {
@@ -43,6 +45,7 @@ export class MailFunction {
             port: this.port,
             host: this.host,
             successHandler: mailSuccessFunc(res),
+            action: this.action,
         });
     }
 

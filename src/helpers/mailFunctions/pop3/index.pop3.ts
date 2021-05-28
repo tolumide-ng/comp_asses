@@ -15,7 +15,6 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
 
     const usersMessages: Array<{ [key: string]: string | Date | object }> = [];
 
-    // (async () => {
     try {
         console.log("EXECUTED");
         await client.connect();
@@ -23,31 +22,29 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
         console.log("CONNECTED???");
 
         await client.connect();
-        const messages = await client.retrieveAll();
 
-        messages.forEach((message) => {
-            const { date, messageId, priority, from, subject } = message;
-            usersMessages.push({
-                date,
-                subject,
-                priority,
-                from,
-                messageId,
+        if (props.action === "all") {
+            const messages = await client.retrieveAll();
+            messages.forEach((message) => {
+                const { date, messageId, priority, from, subject } = message;
+                usersMessages.push({
+                    date,
+                    subject,
+                    priority,
+                    from,
+                    messageId,
+                });
             });
-        });
+        }
 
-        // console.log(
-        //     "ALL MESSAGES RECEIVED>>>>>>>>>>>>>>>>>>>>>",
-        //     usersMessages,
-        // );
+        if (props.action === "one") {
+        }
 
         await client.quit();
         props.successHandler(usersMessages);
     } catch (error) {
-        console.log("AN ERROR OCCURED", error);
-
         await client.quit();
-        props.errorHandler(error);
+        return props.errorHandler(error);
     }
 
     console.log("AWAT!!!!!!!!!!");
