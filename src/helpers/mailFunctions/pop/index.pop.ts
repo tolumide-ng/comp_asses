@@ -12,7 +12,7 @@ import { GetFuncInboxDef } from "../";
 //  * @param {email} props.email - Email of the user connecting
 //  * @param {password} props.password - Password of the user connecting
 //  */
-export function getPop3Inbox(props: GetFuncInboxDef) {
+export function getPopInbox(props: GetFuncInboxDef) {
     const client = new Pop3Client(props.port, props.host, {
         tlserrs: false,
         enabletls: true,
@@ -104,8 +104,12 @@ export function getPop3Inbox(props: GetFuncInboxDef) {
 
                 // console.log("WHAT THE RAW DATA IS>>>>>>>>>>>", rawdata);
 
-                if (msgcount > 0) client.retr(1);
-                else client.quit();
+                if (msgcount > 0) {
+                    // client.retr(1);
+                    // console.log("WHAT I THINK IT IS OR WOULD BE", data[1]);
+                    // console.log("PREV", data[0]);
+                    client.top(1, 10);
+                } else client.quit();
             }
         },
     );
@@ -120,8 +124,7 @@ export function getPop3Inbox(props: GetFuncInboxDef) {
 
                 console.log("typeof status", typeof status);
                 console.log("typeof of msgnumber", msgnumber);
-                console.log("typeof data", typeof data);
-                console.log("typeof of rawdata", typeof rawdata);
+                // console.log("typeof data", typeof data);
 
                 // console.log("THE DATA>>>>>>>>>", data);
                 // console.log("THE RAWDATA>>>>>>>", rawdata);
@@ -129,6 +132,41 @@ export function getPop3Inbox(props: GetFuncInboxDef) {
                 console.log("RETR failed for msgnumber " + msgnumber);
                 client.quit();
             }
+        },
+    );
+
+    client.on(
+        "top",
+        function (status: boolean, msgnumber: any, data: any, rawdata: any) {
+            // console.log("HERRRRRRRR", data);
+            // console.log("the message", msgnumber);
+            // console.log("the raw data>>>>", rawdata);
+
+            let startPushing = false;
+
+            const arr = [];
+
+            const lines = data.split("\n");
+            for (let i = 0; i < lines.length; i++) {
+                if (
+                    lines[i].startsWith("Content-Transfer-Encoding") &&
+                    i + 1 < lines.length &&
+                    lines[i + 1].startsWith("To")
+                ) {
+                    startPushing = true;
+                }
+
+                if (startPushing) {
+                    arr.push(lines[i]);
+                }
+
+                if (lines[i].startsWith("Content-Length")) {
+                    startPushing = false;
+                    return;
+                }
+            }
+
+            console.log("RETURN OF THE ARR", arr);
         },
     );
 

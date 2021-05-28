@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { MailFuncDef } from ".";
 import { ResponseGenerator } from "../responseGenerator/index.helper";
-import { GetFuncInboxDef, PortTypeDef } from "./index.model";
+import { GetFuncInboxDef, PortDictDef, PortTypeDef } from "./index.model";
 import { mailErrorFunc } from "./mailErrors";
 
 export class MailFunction {
@@ -11,6 +11,18 @@ export class MailFunction {
     private encryptionType;
     private port;
     private host;
+
+    portNumber: PortDictDef = {
+        IMAP: {
+            "SSL/TLS": 993,
+            STARTTLS: 993,
+            Unencrypted: 143,
+        },
+        POP3: {
+            "SSL/TLS": 995,
+            Unencrypted: 110,
+        },
+    };
 
     constructor(mailFunc: MailFuncDef) {
         this.email = mailFunc.email;
@@ -33,23 +45,6 @@ export class MailFunction {
     }
 
     getPort(): PortTypeDef {
-        if (this.serverType === "IMAP") {
-            if (["SSL/TLS", "STARTTLS"].includes(this.encryptionType)) {
-                return 993;
-            }
-
-            if (this.encryptionType === "Unencrypted") {
-                return 143;
-            }
-        }
-
-        if (this.serverType === "POP3") {
-            if (["SSL/TLS", "STARTTLS"].includes(this.encryptionType)) {
-                return 995;
-            }
-        }
-
-        // POP3 this.encryptionType === "Unencrypted"
-        return 110;
+        return this.portNumber[this.serverType][this.encryptionType];
     }
 }

@@ -2,12 +2,12 @@ import { Request, Response } from "express";
 
 import { getImapInbox } from "../../helpers/mailFunctions/imap/index.imap";
 import { MailFunction } from "../../helpers/mailFunctions/index.mail";
-import { getPop3Inbox } from "../../helpers/mailFunctions/pop/index.pop";
-import { getPopInbox } from "../../helpers/mailFunctions/pop3/index.pop3";
+import { getPopInbox } from "../../helpers/mailFunctions/pop/index.pop";
+import { getPop3Inbox } from "../../helpers/mailFunctions/pop3/index.pop3";
 import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
 
 export class MailController {
-    static getAllInbox(req: Request, res: Response) {
+    static async getAllInbox(req: Request, res: Response) {
         try {
             const { email, password, serverType, encType } = req.body;
 
@@ -29,8 +29,8 @@ export class MailController {
             }
 
             if (serverType === "POP3") {
-                // getPopInbox();
-                getUserInbox.getInbox(getPop3Inbox, res);
+                // getUserInbox.getInbox(getPopInbox, res);
+                await getUserInbox.getInbox(getPop3Inbox, res);
             }
         } catch (error) {
             return ResponseGenerator.sendError(res, 500);

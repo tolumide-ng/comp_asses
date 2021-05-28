@@ -24,4 +24,13 @@ export interface GetFuncInboxDef {
     errorHandler: (error: {
         message: string;
     }) => Response<any, Record<string, any>> | undefined;
+    successHandler?: (
+        info: object,
+    ) => Response<any, Record<string, any>> | undefined;
+}
+
+export interface PortDictDef {
+    [key: string]: {
+        [key: string]: PortTypeDef;
+    };
 }
