@@ -1,6 +1,5 @@
 import { Response } from "express";
 import { MailFuncDef } from ".";
-import { ResponseGenerator } from "../responseGenerator/index.helper";
 import { GetFuncInboxDef, PortDictDef, PortTypeDef } from "./index.model";
 import { mailErrorFunc } from "./mailResponses";
 import { mailSuccessFunc } from "./mailResponses/index.success";
@@ -13,6 +12,7 @@ export class MailFunction {
     private port;
     private host;
     private action;
+    private msgNumber: number | undefined = undefined; // explicit
 
     portNumber: PortDictDef = {
         IMAP: {
@@ -34,10 +34,11 @@ export class MailFunction {
         this.host = mailFunc.host;
         this.port = this.getPort();
         this.action = mailFunc.action;
+        this.msgNumber = mailFunc.msgNumber;
     }
 
     getInbox(makeCall: (props: GetFuncInboxDef) => void, res: Response) {
-        makeCall({
+        const funcParams = {
             email: this.email,
             password: this.password,
             encType: this.encryptionType,
@@ -46,7 +47,10 @@ export class MailFunction {
             host: this.host,
             successHandler: mailSuccessFunc(res),
             action: this.action,
-        });
+            msgNumber: this.msgNumber,
+        };
+
+        makeCall(funcParams);
     }
 
     getPort(): PortTypeDef {

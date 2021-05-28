@@ -1,4 +1,4 @@
-import { Client } from "yapople";
+import { Client, Message } from "yapople";
 import { GetFuncInboxDef } from "../index.model";
 
 export async function getPop3Inbox(props: GetFuncInboxDef) {
@@ -14,6 +14,7 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
     const client = new Client(config);
 
     const usersMessages: Array<{ [key: string]: string | Date | object }> = [];
+    let userSpecificMessage: Message[] = [];
 
     try {
         console.log("EXECUTED");
@@ -21,9 +22,11 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
 
         console.log("CONNECTED???");
 
-        await client.connect();
+        console.log("the action", props.action);
+        console.log("the message number", props.msgNumber);
 
         if (props.action === "all") {
+            console.log("SHOULDN'T BE WITHIN THIS");
             const messages = await client.retrieveAll();
             messages.forEach((message) => {
                 const { date, messageId, priority, from, subject } = message;
@@ -37,11 +40,25 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
             });
         }
 
-        if (props.action === "one") {
+        if (props.action === "one" && props.msgNumber) {
+            console.log("SHOULD BE WITHIN THIS ONE ATM");
+            const theMessage = await client.retrieve(props.msgNumber);
+
+            console.log(
+                "RETREIVED THE MESSAGE HERE>>>>>>>>>>>>>>>>>",
+                theMessage,
+            );
+
+            userSpecificMessage = theMessage;
         }
 
         await client.quit();
-        props.successHandler(usersMessages);
+
+        if (props.action === "all") {
+            props.successHandler(usersMessages);
+        } else {
+            props.successHandler(userSpecificMessage);
+        }
     } catch (error) {
         await client.quit();
         return props.errorHandler(error);

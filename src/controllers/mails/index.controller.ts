@@ -21,7 +21,8 @@ export class MailController {
                 serverType,
                 encryption: encType,
                 host,
-                action: "all",
+                action: "one",
+                msgNumber: 1,
             });
 
             if (serverType === "IMAP") {

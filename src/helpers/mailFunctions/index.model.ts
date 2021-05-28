@@ -15,6 +15,7 @@ export interface MailFuncDef {
     serverType: ServerTypeDef;
     host: string;
     action: FetchActionTypeDef;
+    msgNumber?: number;
 }
 
 export interface GetFuncInboxDef {
@@ -31,6 +32,7 @@ export interface GetFuncInboxDef {
         info: object,
     ) => Response<any, Record<string, any>> | undefined;
     action: FetchActionTypeDef;
+    msgNumber?: number;
 }
 
 export interface PortDictDef {
