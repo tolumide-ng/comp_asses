@@ -58,7 +58,6 @@ export class KeyCrypt implements KeyCryptDef {
 
             return decrypted.toString();
         } catch (error) {
-            // console.log("err", err.message)
             return ResponseGenerator.sendError(res, 401);
         }
     }
