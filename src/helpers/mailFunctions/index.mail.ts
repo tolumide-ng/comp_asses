@@ -1,8 +1,8 @@
 import { Response } from "express";
 import { MailFuncDef } from ".";
-import { ResponseGenerator } from "../responseGenerator/index.helper";
-import { GetFuncInboxDef, PortTypeDef } from "./index.model";
-import { mailErrorFunc } from "./mailErrors";
+import { GetFuncInboxDef, PortDictDef, PortTypeDef } from "./index.model";
+import { mailErrorFunc } from "./mailResponses";
+import { mailSuccessFunc } from "./mailResponses/index.success";
 
 export class MailFunction {
     private password;
@@ -11,6 +11,20 @@ export class MailFunction {
     private encryptionType;
     private port;
     private host;
+    private action;
+    private msgNumber: number | undefined = undefined; // explicit
+
+    portNumber: PortDictDef = {
+        IMAP: {
+            "SSL/TLS": 993,
+            STARTTLS: 993,
+            Unencrypted: 143,
+        },
+        POP3: {
+            "SSL/TLS": 995,
+            Unencrypted: 110,
+        },
+    };
 
     constructor(mailFunc: MailFuncDef) {
         this.email = mailFunc.email;
@@ -19,37 +33,27 @@ export class MailFunction {
         this.serverType = mailFunc.serverType;
         this.host = mailFunc.host;
         this.port = this.getPort();
+        this.action = mailFunc.action;
+        this.msgNumber = mailFunc.msgNumber;
     }
 
     getInbox(makeCall: (props: GetFuncInboxDef) => void, res: Response) {
-        makeCall({
+        const funcParams = {
             email: this.email,
             password: this.password,
             encType: this.encryptionType,
             errorHandler: mailErrorFunc(res),
             port: this.port,
             host: this.host,
-        });
+            successHandler: mailSuccessFunc(res),
+            action: this.action,
+            msgNumber: this.msgNumber,
+        };
+
+        makeCall(funcParams);
     }
 
     getPort(): PortTypeDef {
-        if (this.serverType === "IMAP") {
-            if (["SSL/TLS", "STARTTLS"].includes(this.encryptionType)) {
-                return 993;
-            }
-
-            if (this.encryptionType === "Unencrypted") {
-                return 143;
-            }
-        }
-
-        if (this.serverType === "POP3") {
-            if (["SSL/TLS", "STARTTLS"].includes(this.encryptionType)) {
-                return 995;
-            }
-        }
-
-        // POP3 this.encryptionType === "Unencrypted"
-        return 110;
+        return this.portNumber[this.serverType][this.encryptionType];
     }
 }

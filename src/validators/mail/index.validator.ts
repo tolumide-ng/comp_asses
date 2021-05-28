@@ -72,3 +72,18 @@ export const hasValidServerType: RequestHandler = (req, res, next) => {
         "Please add a valid server type",
     );
 };
+
+
+
+export const hasValidId: RequestHandler = (req, res, next) => {
+    if(Number(req.params.id) > 0){
+        return next()
+    }
+
+
+    return ResponseGenerator.sendError(
+        res,
+        400,
+        "Message Id must be a valid integer greater than 0",
+    );
+}

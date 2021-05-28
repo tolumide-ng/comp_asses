@@ -12,4 +12,6 @@ export const mailErrorFunc =
                 "Request Timed Out: Please try again later",
             );
         }
+
+        return ResponseGenerator.sendError(res, code);
     };

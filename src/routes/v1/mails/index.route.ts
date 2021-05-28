@@ -6,4 +6,10 @@ const router = Router();
 
 router.get("/all", MailMiddleware.getAllInbox(), MailController.getAllInbox);
 
+router.get(
+    "/one/:id",
+    MailMiddleware.getSpecificInbox(),
+    MailController.getSpecificInbox,
+);
+
 export default router;
