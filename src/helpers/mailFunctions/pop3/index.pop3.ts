@@ -50,6 +50,8 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
             );
 
             userSpecificMessage = theMessage;
+
+            // MAKE REQUEST TO DELETE THIS MESSAGE AFTER IT HAS BEEN READ
         }
 
         await client.quit();
