@@ -23,7 +23,7 @@ export const hasToken: RequestHandler = async (req, res, next) => {
 };
 
 export const hasLogin: RequestHandler = async (req, res, next) => {
-    if (!req.body.password || !req.body.email) {
+    if (!req.body.password || !req.params.email) {
         return ResponseGenerator.sendError(res, 400);
     }
 
