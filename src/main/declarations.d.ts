@@ -17,3 +17,5 @@ export interface GetAllMailsDef {
 export interface GetSpecificMailDef extends GetAllMailsDef {
     mailKey: string;
 }
+
+

@@ -5,8 +5,12 @@ import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
 import { isEmailValid } from "../../../utilities/validators";
+import { EmptyMail } from "../../UI/molecules/EmptyMail";
 import { Connection } from "../../UI/organisms/Connection";
+import { appStatusText } from "../../../utilities/reusables";
 import style from "./index.module.css";
+
+// HANDLE EMPTY EMAILS SCENARIO
 
 export const LandingPage = () => {
     const [appState, setAppState] = React.useState({
@@ -85,7 +89,16 @@ export const LandingPage = () => {
                     </div>
                     <div className={style.homeLeftBottom}></div>
                 </div>
-                <div className={`${style.homeRight} ${style.homeChild}`}></div>
+                <div className={`${style.homeRight} ${style.homeChild}`}>
+                    {appState.allMails?.length === 0 &&
+                    allMailsSelector.status !== "fetchAllMailsPending" ? (
+                        <EmptyMail
+                            text={appStatusText[allMailsSelector.status]}
+                        />
+                    ) : (
+                        <></>
+                    )}
+                </div>
             </div>
         </article>
     );
