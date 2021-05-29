@@ -1,0 +1,10 @@
+.allMailUl {
+    list-style: none;
+    width: 100%;
+    overflow: scroll;
+}
+
+.allMailLi {
+    height: 100%;
+    width: 100%;
+}

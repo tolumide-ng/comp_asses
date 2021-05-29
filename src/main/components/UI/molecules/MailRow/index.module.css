@@ -1,0 +1,19 @@
+.mailRow {
+    height: 2.5rem;
+    width: 100%;
+    display: flex;
+    padding: 0.2rem;
+    border: 1px solid black;
+}
+
+.mailRowLeft {
+}
+
+.mailRowRight {
+}
+
+.mailRowRightTop {
+}
+
+.mailRowRightBottom {
+}

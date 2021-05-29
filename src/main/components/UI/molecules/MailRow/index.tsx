@@ -9,9 +9,12 @@ interface MailRowDef {
 
 export const MailRow = () => {
     return (
-        <div className="">
-            <div className=""></div>
-            <div className=""></div>
+        <div className={style.mailRow}>
+            <div className={style.mailRowLeft}></div>
+            <div className={style.mailRowRight}>
+                <div className={style.mailRowRightTop}></div>
+                <div className={style.mailRowRightBottom}></div>
+            </div>
         </div>
     );
 };
