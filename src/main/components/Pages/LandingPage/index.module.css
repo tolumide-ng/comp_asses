@@ -29,7 +29,7 @@
 .homeLeft {
     grid-column: 1;
     display: grid;
-    grid-template-rows: 8rem 1fr;
+    grid-template-rows: 10.5rem 1fr;
     row-gap: var(--home-p);
 }
 
@@ -54,9 +54,5 @@
 
     .homeRight {
         display: none;
-    }
-
-    .homeLeft {
-        grid-template-rows: 10rem 1fr;
     }
 }

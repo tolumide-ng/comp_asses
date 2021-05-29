@@ -28,9 +28,30 @@
 .connectInput {
     height: 2rem;
     width: 50%;
-    padding: 0.5rem;
+    padding: 0.2rem;
 }
 
 .connectLabel {
     text-transform: capitalize;
+}
+
+.connectButtonCont {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.connectButton {
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+}
+
+.connectButton:active {
+    transform: scale(0.98);
+}
+
+.connectError {
+    font-size: 0.8rem;
+    color: var(--color-error-red);
 }
