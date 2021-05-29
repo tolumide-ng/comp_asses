@@ -3,7 +3,7 @@
     --home-cont-p: 1rem;
     padding: var(--home-cont-p);
     display: flex;
-    position: relative;
+    /* position: relative; */
 }
 
 .home {
@@ -19,13 +19,13 @@
 .homeChild {
     height: 100%;
     width: 100%;
+    /* overflow: scroll; */
 }
 
 .homeRight {
     grid-column: 2;
     border: 1px solid var(--color-black);
     padding: var(--home-p);
-    overflow: scroll;
 }
 
 .homeLeft {
@@ -33,7 +33,6 @@
     display: grid;
     grid-template-rows: 10.5rem 1fr;
     row-gap: var(--home-p);
-    overflow: scroll;
 }
 
 .homeleftTop {

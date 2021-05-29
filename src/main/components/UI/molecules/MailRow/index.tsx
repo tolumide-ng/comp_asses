@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Initials } from "../../atoms/Initials";
 import style from "./index.module.css";
 
 interface MailRowDef {
@@ -7,10 +8,12 @@ interface MailRowDef {
     from: { name: string; address: string };
 }
 
-export const MailRow = () => {
+export const MailRow = (props: MailRowDef) => {
     return (
         <div className={style.mailRow}>
-            <div className={style.mailRowLeft}></div>
+            <div className={style.mailRowLeft}>
+                <Initials name={props.from.name} />
+            </div>
             <div className={style.mailRowRight}>
                 <div className={style.mailRowRightTop}></div>
                 <div className={style.mailRowRightBottom}></div>

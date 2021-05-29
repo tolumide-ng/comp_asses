@@ -7,7 +7,11 @@ export const AllMails = () => {
         <ul className={style.allMailUl}>
             {new Array(20).fill("_").map((row, index) => (
                 <li key={index} className={style.allMailLi}>
-                    <MailRow />
+                    <MailRow
+                        subject="Welcome to the board"
+                        from={{ address: "useremail", name: "Akanbi name" }}
+                        date=""
+                    />
                 </li>
             ))}
         </ul>
