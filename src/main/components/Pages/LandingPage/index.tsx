@@ -9,6 +9,7 @@ import { Connection } from "../../UI/organisms/Connection";
 import style from "./index.module.css";
 import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 import { SpecificEmail } from "../../UI/organisms/SpecificEmail";
+import { fetchSpecificMailAction } from "../../../store/modules/specificMail/actions";
 
 // HANDLE EMPTY EMAILS SCENARIO
 
@@ -16,6 +17,10 @@ interface AppStateDef {
     allMails: Array<AllSpecificMailsDef>;
     specificMail: {};
     error: string;
+    config: {
+        encType: string;
+        serverType: string;
+    };
 }
 
 export const LandingPage = () => {
@@ -23,6 +28,10 @@ export const LandingPage = () => {
         allMails: [],
         specificMail: {},
         error: "",
+        config: {
+            encType: "",
+            serverType: "",
+        },
     });
 
     const dispatch = useDispatch();
@@ -41,7 +50,15 @@ export const LandingPage = () => {
             }));
         }
 
-        setAppState({ allMails: [], specificMail: {}, error: "" });
+        setAppState({
+            allMails: [],
+            specificMail: {},
+            error: "",
+            config: {
+                encType: props.encType,
+                serverType: props.serverType,
+            },
+        });
 
         console.log("NOW THAT I AM HERE", props.encType);
 
@@ -59,7 +76,22 @@ export const LandingPage = () => {
         });
     };
 
-    const handleSpecificMail = (index: number) => {};
+    const handleSpecificMail = (index: number) => {
+        const { encType, serverType } = appState.config;
+        const userKey = allMailsSelector.allMails.keys;
+
+        useActionCall({
+            dispatch,
+            requestFunc: fetchSpecificMailAction,
+            method: "POST",
+            path: `one/${index}`,
+            payload: {
+                encType,
+                serverType,
+            },
+            userKey,
+        });
+    };
 
     React.useEffect(() => {
         if (allMailsSelector.status === "fetchAllMailsSuccess") {

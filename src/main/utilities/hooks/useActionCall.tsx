@@ -7,11 +7,13 @@ interface MakeCallDef {
         payload: {};
         method: ForAxiosDefs;
         params?: {};
+        userKey?: string;
     }) => void;
     method: ForAxiosDefs;
     path: string;
     payload: {};
     params?: {};
+    userKey?: string;
 }
 
 export const useActionCall = async (props: MakeCallDef) => {
@@ -21,6 +23,7 @@ export const useActionCall = async (props: MakeCallDef) => {
             method: props.method,
             payload: props.payload,
             params: props.params ?? {},
+            userKey: props.userKey ?? "",
         })
     );
 };
