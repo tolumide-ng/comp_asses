@@ -37,7 +37,6 @@ export const fetchAllMailsSuccess = (allMails: []) => ({
 export const fetchAllMailsAction =
     (props: StoreActionPropsDefs): AppThunk =>
     async (dispatch) => {
-        console.log("THE COMPLETE PAYLOAD", props.payload);
         try {
             dispatch(fetchAllMailsPending());
             const response = await axiosCall(props);
