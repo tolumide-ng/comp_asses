@@ -1,0 +1,11 @@
+.initials {
+    height: 2rem;
+    width: 2rem;
+    border-radius: 100%;
+    color: var(--color-white);
+    background-color: var(--color-gigas);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 0.75rem;
+}

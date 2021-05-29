@@ -1,15 +1,27 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllMailsDef } from "../../../declarations";
+import { AllSpecificMailsDef, GetAllMailsDef } from "../../../declarations";
 import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
 import { isEmailValid } from "../../../utilities/validators";
+import { EmptyMail } from "../../UI/molecules/EmptyMail";
 import { Connection } from "../../UI/organisms/Connection";
+import { appStatusText } from "../../../utilities/reusables";
 import style from "./index.module.css";
+import { LoadingContainer } from "../../UI/molecules/LoadingContainer";
+import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
+
+// HANDLE EMPTY EMAILS SCENARIO
+
+interface AppStateDef {
+    allMails: Array<AllSpecificMailsDef>;
+    specificMail: {};
+    error: string;
+}
 
 export const LandingPage = () => {
-    const [appState, setAppState] = React.useState({
+    const [appState, setAppState] = React.useState<AppStateDef>({
         allMails: [],
         specificMail: {},
         error: "",
@@ -49,14 +61,18 @@ export const LandingPage = () => {
         });
     };
 
-    const handleSpecificMail = () => {};
+    const handleSpecificMail = (index: number) => {};
 
     React.useEffect(() => {
         if (allMailsSelector.status === "fetchAllMailsSuccess") {
-            console.log("DATA IS BACK NOW>>>>>>>>>>>>>>>>");
+            console.log(
+                "WHAT WAS RECEIVED FROM THE BACKEND >>>>>>>>>>>>>",
+                allMailsSelector.allMails.data
+            );
+
             setAppState((prevState) => ({
                 ...prevState,
-                allMails: allMailsSelector.allMails,
+                allMails: allMailsSelector.allMails.data,
             }));
         }
 
@@ -83,9 +99,23 @@ export const LandingPage = () => {
                             error={appState.error}
                         />
                     </div>
-                    <div className={style.homeLeftBottom}></div>
+                    <div className={style.homeLeftBottom}>
+                        <div className={style.homeMailsMob}>
+                            <AllMailsTemp
+                                allMails={appState.allMails}
+                                allMailsStatus={allMailsSelector.status}
+                                handleSpecificMail={handleSpecificMail}
+                            />
+                        </div>
+                    </div>
                 </div>
-                <div className={`${style.homeRight} ${style.homeChild}`}></div>
+                <div className={`${style.homeRight} ${style.homeChild}`}>
+                    <AllMailsTemp
+                        allMails={appState.allMails}
+                        allMailsStatus={allMailsSelector.status}
+                        handleSpecificMail={handleSpecificMail}
+                    />
+                </div>
             </div>
         </article>
     );

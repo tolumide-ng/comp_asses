@@ -1,0 +1,64 @@
+.asm {
+    display: inline-block;
+    position: relative;
+    /* transform: translate(5px, 5px); */
+    outline: none;
+}
+
+.asmBig {
+    width: 5rem;
+    height: 5rem;
+}
+
+.asmSmall {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.asmChild {
+    position: absolute;
+    display: block;
+
+    margin: 0.2rem;
+    border-radius: 100%;
+    animation: move 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+}
+
+.asmChildBig {
+    width: 3.75rem;
+    height: 3.75rem;
+}
+
+.asmChildSmall {
+    width: 1.75rem;
+    height: 1.75rem;
+}
+
+.asmChildLight {
+    border: 0.2rem solid var(--color-white);
+    border-color: var(--color-white) transparent transparent transparent;
+}
+
+.asmChildDark {
+    border: 0.2rem solid var(--color-gigas);
+    border-color: var(--color-gigas) transparent transparent transparent;
+}
+
+.asmChild:nth-child(1) {
+    animation-delay: -0.45s;
+}
+.asmChild:nth-child(2) {
+    animation-delay: -0.3s;
+}
+.asmChild:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes move {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

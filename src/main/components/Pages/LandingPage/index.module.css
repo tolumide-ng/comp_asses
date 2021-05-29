@@ -3,11 +3,12 @@
     --home-cont-p: 1rem;
     padding: var(--home-cont-p);
     display: flex;
+    /* position: relative; */
 }
 
 .home {
     display: grid;
-    grid-template-columns: 0.55fr 0.45fr;
+    grid-template-columns: 55% 45%;
     border: 2px solid var(--color-black);
     width: 100%;
     height: calc(100vh - var(--home-cont-p));
@@ -18,6 +19,7 @@
 .homeChild {
     height: 100%;
     width: 100%;
+    /* overflow: scroll; */
 }
 
 .homeRight {
@@ -37,11 +39,19 @@
     border: 1px solid var(--color-black);
     height: 100%;
     padding: var(--home-p);
+    position: sticky;
+    top: 0;
+    background-color: var(--color-white);
 }
 
 .homeLeftBottom {
     border: 1px solid var(--color-black);
     padding: var(--home-p);
+    overflow-x: hidden;
+}
+
+.homeMailsMob {
+    display: none;
 }
 
 @media screen and (max-width: 745px) {
@@ -54,5 +64,13 @@
 
     .homeRight {
         display: none;
+    }
+
+    .homeMailsMob {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }

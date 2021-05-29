@@ -1,0 +1,61 @@
+.mailRow {
+    height: 3.5rem;
+    /* width: 100%; */
+    display: flex;
+    padding: 0.2rem;
+    border: 1px solid var(--color-dusty-gray);
+    border-bottom: none;
+}
+
+.mailRowLeft {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 1rem;
+}
+
+.mailRowRight {
+    width: 80%;
+    justify-content: center;
+    display: flex;
+}
+
+.mailRowSum {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    width: 70%;
+}
+
+.mailRowDateCont {
+    display: flex;
+    width: 30%;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.mailRowDate {
+}
+
+.mailRowRightTop {
+}
+
+.mailRowRightBottom {
+}
+
+.mailRowSubject,
+.mailRowName {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.mailRowSubject {
+    padding-bottom: 0.3rem;
+}
+
+.mailRowName {
+    font-weight: bold;
+    font-size: 1.05rem;
+}
