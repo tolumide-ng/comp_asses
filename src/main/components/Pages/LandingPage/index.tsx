@@ -95,7 +95,14 @@ export const LandingPage = () => {
                             error={appState.error}
                         />
                     </div>
-                    <div className={style.homeLeftBottom}></div>
+                    <div className={style.homeLeftBottom}>
+                        <div className={style.homeMailsMob}>
+                            <AllMailsTemp
+                                allMails={appState.allMails}
+                                allMailsStatus={allMailsSelector.status}
+                            />
+                        </div>
+                    </div>
                 </div>
                 <div className={`${style.homeRight} ${style.homeChild}`}>
                     <AllMailsTemp

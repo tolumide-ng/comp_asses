@@ -44,6 +44,10 @@
     padding: var(--home-p);
 }
 
+.homeMailsMob {
+    display: none;
+}
+
 @media screen and (max-width: 745px) {
     .homeCont {
         --home-cont-p: 0.1rem;
@@ -54,5 +58,13 @@
 
     .homeRight {
         display: none;
+    }
+
+    .homeMailsMob {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 }
