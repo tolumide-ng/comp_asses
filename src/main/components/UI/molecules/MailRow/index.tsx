@@ -9,11 +9,15 @@ interface MailRowDef {
     date: Date | string;
     from: MailSenderDef;
     index: number;
+    handleSpecificMail: (index: number) => void;
 }
 
 export const MailRow = (props: MailRowDef) => {
     return (
-        <div className={style.mailRow}>
+        <div
+            className={style.mailRow}
+            onClick={(_e) => props.handleSpecificMail(props.index)}
+        >
             <div className={style.mailRowLeft}>
                 <Initials name={props?.from?.name} />
             </div>

@@ -5,6 +5,7 @@ import { AllSpecificMailsDef } from "../../../../declarations";
 
 interface AllMailsDef {
     allMails: Array<AllSpecificMailsDef>;
+    handleSpecificMail: (index: number) => void;
 }
 
 export const AllMails = (props: AllMailsDef) => {
@@ -17,6 +18,7 @@ export const AllMails = (props: AllMailsDef) => {
                         from={mail.from}
                         date={mail.date}
                         index={index + 1}
+                        handleSpecificMail={props.handleSpecificMail}
                     />
                 </li>
             ))}

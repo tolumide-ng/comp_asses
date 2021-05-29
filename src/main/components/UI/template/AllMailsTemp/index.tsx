@@ -9,6 +9,7 @@ import style from "./index.module.css";
 interface AllMailsTempDef {
     allMails: Array<AllSpecificMailsDef>;
     allMailsStatus: string;
+    handleSpecificMail: (index: number) => void;
 }
 
 export const AllMailsTemp = (props: AllMailsTempDef) => {
@@ -29,7 +30,10 @@ export const AllMailsTemp = (props: AllMailsTempDef) => {
 
             {props.allMailsStatus === "fetchAllMailsSuccess" &&
             props.allMails?.length ? (
-                <AllMails allMails={props.allMails} />
+                <AllMails
+                    allMails={props.allMails}
+                    handleSpecificMail={props.handleSpecificMail}
+                />
             ) : (
                 <></>
             )}

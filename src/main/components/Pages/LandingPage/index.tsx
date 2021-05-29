@@ -61,7 +61,7 @@ export const LandingPage = () => {
         });
     };
 
-    const handleSpecificMail = () => {};
+    const handleSpecificMail = (index: number) => {};
 
     React.useEffect(() => {
         if (allMailsSelector.status === "fetchAllMailsSuccess") {
@@ -104,6 +104,7 @@ export const LandingPage = () => {
                             <AllMailsTemp
                                 allMails={appState.allMails}
                                 allMailsStatus={allMailsSelector.status}
+                                handleSpecificMail={handleSpecificMail}
                             />
                         </div>
                     </div>
@@ -112,6 +113,7 @@ export const LandingPage = () => {
                     <AllMailsTemp
                         allMails={appState.allMails}
                         allMailsStatus={allMailsSelector.status}
+                        handleSpecificMail={handleSpecificMail}
                     />
                 </div>
             </div>
