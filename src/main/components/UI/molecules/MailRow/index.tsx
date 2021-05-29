@@ -1,22 +1,28 @@
 import * as React from "react";
+import { MailSenderDef } from "../../../../declarations";
 import { Initials } from "../../atoms/Initials";
 import style from "./index.module.css";
 
 interface MailRowDef {
     subject: string;
     date: Date | string;
-    from: { name: string; address: string };
+    from: MailSenderDef;
+    index: number;
 }
 
 export const MailRow = (props: MailRowDef) => {
     return (
         <div className={style.mailRow}>
             <div className={style.mailRowLeft}>
-                <Initials name={props.from.name} />
+                <Initials name={props?.from?.name} />
             </div>
             <div className={style.mailRowRight}>
-                <div className={style.mailRowRightTop}></div>
-                <div className={style.mailRowRightBottom}></div>
+                <div className={style.mailRowRightTop}>
+                    <p className={style.mailRowName}>{props.from.name}</p>
+                </div>
+                <div className={style.mailRowRightBottom}>
+                    <p className={style.mailRowSubject}>{props.subject}</p>
+                </div>
             </div>
         </div>
     );

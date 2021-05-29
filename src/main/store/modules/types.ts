@@ -2,6 +2,7 @@ import { Action } from "redux";
 import { ThunkAction } from "redux-thunk";
 import { RootStateDef } from ".";
 import { ForAxiosDefs } from "../../commonTypes";
+import { AllMailsResponseDef } from "../../declarations";
 
 export interface RootState {
     dropDownReducer: {
@@ -10,7 +11,7 @@ export interface RootState {
     fetchAllMailsReducer: {
         status: string;
         error: string | null;
-        allMails: [];
+        allMails: AllMailsResponseDef;
     };
 }
 

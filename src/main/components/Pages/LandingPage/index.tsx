@@ -1,6 +1,6 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { GetAllMailsDef } from "../../../declarations";
+import { AllSpecificMailsDef, GetAllMailsDef } from "../../../declarations";
 import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
@@ -15,7 +15,7 @@ import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 // HANDLE EMPTY EMAILS SCENARIO
 
 interface AppStateDef {
-    allMails: [];
+    allMails: Array<AllSpecificMailsDef>;
     specificMail: {};
     error: string;
 }
@@ -65,10 +65,14 @@ export const LandingPage = () => {
 
     React.useEffect(() => {
         if (allMailsSelector.status === "fetchAllMailsSuccess") {
-            console.log("DATA IS BACK NOW>>>>>>>>>>>>>>>>");
+            console.log(
+                "WHAT WAS RECEIVED FROM THE BACKEND >>>>>>>>>>>>>",
+                allMailsSelector.allMails.data
+            );
+
             setAppState((prevState) => ({
                 ...prevState,
-                allMails: allMailsSelector.allMails,
+                allMails: allMailsSelector.allMails.data,
             }));
         }
 

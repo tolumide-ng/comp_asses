@@ -8,15 +8,20 @@ export const appStatusText: { [keyt: string]: string } = {
     fetchAllMailsFailure: "There was a problem fetching your mails",
 };
 
-export const getInitials = (name: string) => {
-    const splitName = name.split(" ");
-    let initials = "";
-    if (splitName.length > 1) {
-        return (
-            splitName[0][0].toLocaleUpperCase() +
-            splitName[splitName.length - 1][0].toLocaleUpperCase()
-        );
+export const getInitials = (name: string): string => {
+    if (name) {
+        const splitName = name.trim().split(" ");
+
+        console.log(splitName);
+        if (splitName.length > 1) {
+            return (
+                splitName[0][0].toLocaleUpperCase() +
+                splitName[splitName.length - 1][0].toLocaleUpperCase()
+            );
+        }
+
+        return splitName[0][0].toLocaleUpperCase();
     }
 
-    return splitName[0][0].toLocaleUpperCase();
+    return "";
 };
