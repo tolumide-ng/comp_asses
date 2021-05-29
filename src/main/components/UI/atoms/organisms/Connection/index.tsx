@@ -1,4 +1,5 @@
 import * as React from "react";
+import { Input } from "../../Input";
 import style from "./index.module.css";
 
 const encryptionOptions = [
@@ -30,9 +31,15 @@ export const Connection = () => {
     return (
         <section className={style.connect}>
             <div className={style.connectLeft}>
-                <div className="">
-                    <label htmlFor="serverType">Server Type</label>
-                    <select name="serverType" id="">
+                <div className={style.connectInputCont}>
+                    <label htmlFor="serverType" className={style.connectLabel}>
+                        Server Type
+                    </label>
+                    <select
+                        name="serverType"
+                        id=""
+                        className={style.connectInput}
+                    >
                         {serverOptions.map((server) => (
                             <option
                                 disabled={server.disabledAt.includes(
@@ -46,22 +53,31 @@ export const Connection = () => {
                     </select>
                 </div>
 
-                {formOptions.slice(0, 2).map((input) => (
-                    <div className="" key={input.label}>
-                        <label htmlFor="">{input.label}</label>
-                        <input
-                            type={input.type}
-                            disabled={input.disabled}
-                            value={appState[input.label]}
-                        />
-                    </div>
+                {formOptions.slice(0, 2).map((props) => (
+                    <Input
+                        inputContClass={style.connectInputCont}
+                        inputClass={style.connectInput}
+                        inputLabelClass={style.connectLabel}
+                        inputLabel={props.label}
+                        inputType={props.type}
+                        inputName={props.label}
+                        inputDisabled={props.disabled}
+                        inputValue={appState[props.label]}
+                        key={props.label}
+                    />
                 ))}
             </div>
 
             <div className={style.connectRight}>
-                <div className="">
-                    <label htmlFor="encryption">Encryption</label>
-                    <select name="encryption" id="">
+                <div className={style.connectInputCont}>
+                    <label htmlFor="encryption" className={style.connectLabel}>
+                        Encryption
+                    </label>
+                    <select
+                        name="encryption"
+                        id=""
+                        className={style.connectInput}
+                    >
                         {encryptionOptions.map((encType) => (
                             <option
                                 disabled={encType.disabledAt.includes(
@@ -75,15 +91,18 @@ export const Connection = () => {
                     </select>
                 </div>
 
-                {formOptions.slice(2).map((input) => (
-                    <div className="" key={input.label}>
-                        <label htmlFor="">{input.label}</label>
-                        <input
-                            type={input.type}
-                            disabled={input.disabled}
-                            value={appState[input.label]}
-                        />
-                    </div>
+                {formOptions.slice(2).map((props) => (
+                    <Input
+                        inputContClass={style.connectInputCont}
+                        inputClass={style.connectInput}
+                        inputLabelClass={style.connectLabel}
+                        inputLabel={props.label}
+                        inputType={props.type}
+                        inputName={props.label}
+                        inputDisabled={props.disabled}
+                        inputValue={appState[props.label]}
+                        key={props.label}
+                    />
                 ))}
             </div>
         </section>
