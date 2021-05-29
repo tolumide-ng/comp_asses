@@ -1,0 +1,12 @@
+.connect {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.connectLeft {
+    grid-column: 1;
+}
+
+.connectRight {
+    grid-column: 2;
+}
