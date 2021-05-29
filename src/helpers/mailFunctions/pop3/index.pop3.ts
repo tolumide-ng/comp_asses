@@ -23,6 +23,7 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
             const messages = await client.retrieveAll();
             messages.forEach((message) => {
                 const { date, messageId, priority, from, subject } = message;
+
                 usersMessages.data.push({
                     date,
                     subject,
