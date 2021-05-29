@@ -7,6 +7,11 @@ export interface RootState {
     dropDownReducer: {
         display: boolean;
     };
+    fetchAllMailsReducer: {
+        status: string;
+        error: string | null;
+        allMails: [];
+    };
 }
 
 export interface StoreActionPropsDefs {

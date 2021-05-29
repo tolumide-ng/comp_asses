@@ -6,3 +6,14 @@ declare module "react" {
         suggested?: string;
     }
 }
+
+export interface GetAllMailsDef {
+    email: string;
+    password: string;
+    encType: string;
+    serverType: string;
+}
+
+export interface GetSpecificMailDef extends GetAllMailsDef {
+    mailKey: string;
+}
