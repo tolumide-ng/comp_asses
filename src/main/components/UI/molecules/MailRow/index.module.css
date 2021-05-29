@@ -17,9 +17,25 @@
 
 .mailRowRight {
     width: 80%;
+    justify-content: center;
+    display: flex;
+}
+
+.mailRowSum {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    width: 70%;
+}
+
+.mailRowDateCont {
+    display: flex;
+    width: 30%;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+.mailRowDate {
 }
 
 .mailRowRightTop {
