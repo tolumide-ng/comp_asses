@@ -14,7 +14,7 @@ export const serverOptions = [
 export const formOptions = [
     { label: "server", disabled: true, type: "string" },
     { label: "port", disabled: true, type: "string" },
-    { label: "username", disabled: false, type: "string" },
+    { label: "username", disabled: false, type: "email" },
     { label: "password", disabled: false, type: "password" },
 ];
 

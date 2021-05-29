@@ -39,6 +39,10 @@ export const fetchAllMailsAction =
         try {
             dispatch(fetchAllMailsPending());
             const response = await axiosCall(props);
+            console.log(
+                "WHAT THE RESPONSE LOOKS LIKE----------------",
+                response
+            );
             dispatch(fetchAllMailsSuccess(response?.data));
         } catch (error) {
             dispatch(fetchAllMailsFailure(error));

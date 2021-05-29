@@ -7,6 +7,7 @@ interface AxiosProps {
     contentType?: string;
     params?: {};
     method: ForAxiosDefs;
+    userKey?: string;
 }
 
 interface Config extends AxiosRequestConfig {
@@ -26,11 +27,13 @@ function LocalErrorHandler(message: string | {}) {
 interface HeaderType {
     Authorization?: string;
     "Content-Type": string;
+    userKey?: string;
 }
 
 export const axiosCall = async (props: AxiosProps) => {
     const headers: HeaderType = {
         "Content-Type": props.contentType || "application/json",
+        userKey: props.userKey || "",
     };
 
     const url = `${process.env.BASE_URL}${props.path}`;
@@ -45,8 +48,7 @@ export const axiosCall = async (props: AxiosProps) => {
     };
 
     try {
-        const response = await axios(axiosData);
-        return response;
+        return await axios(axiosData);
     } catch (error) {
         if (error.response) {
             const errResponse = error.response.data;

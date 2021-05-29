@@ -1,4 +1,5 @@
 import * as React from "react";
+import { GetAllMailsDef } from "../../../../declarations";
 import { Button } from "../../atoms/Button";
 import { Input } from "../../atoms/Input";
 import style from "./index.module.css";
@@ -11,7 +12,13 @@ import {
     defaultConfig,
 } from "./index.utils";
 
-export const Connection = () => {
+interface ConnectionPropsDef {
+    handleAllMails: (props: GetAllMailsDef) => void;
+    loading: boolean;
+    error: string | null;
+}
+
+export const Connection = (props: ConnectionPropsDef) => {
     const [config, setConfig] = React.useState<{ [key: string]: string }>({
         username: "",
         password: "",
@@ -20,8 +27,6 @@ export const Connection = () => {
         server: getHost(defaultConfig.serverType),
         port: getPort(defaultConfig.serverType, defaultConfig.encType),
     });
-
-    const [appError, setAppError] = React.useState("");
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -34,13 +39,15 @@ export const Connection = () => {
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
         e.persist();
-        console.log("THE SUBMIT EVENT WAS EMITTED");
-        if (!config.password || !config.username) {
-            console.log("HERE@!!!");
-            return setAppError("Username and Password are required");
-        }
-        setAppError("");
-        //
+
+        const {
+            username: email,
+            password,
+            encryptionType: encType,
+            serverType,
+        } = config;
+
+        props.handleAllMails({ email, password, encType, serverType });
     };
 
     React.useEffect(() => {
@@ -85,17 +92,17 @@ export const Connection = () => {
                         </select>
                     </div>
 
-                    {formOptions.slice(0, 2).map((props) => (
+                    {formOptions.slice(0, 2).map((theInput) => (
                         <Input
+                            key={theInput.label}
                             inputContClass={style.connectInputCont}
                             inputClass={style.connectInput}
                             inputLabelClass={style.connectLabel}
-                            inputLabel={props.label}
-                            inputType={props.type}
-                            inputName={props.label}
-                            inputDisabled={props.disabled}
-                            inputValue={config[props.label]}
-                            key={props.label}
+                            inputLabel={theInput.label}
+                            inputType={theInput.type}
+                            inputName={theInput.label}
+                            inputDisabled={theInput.disabled}
+                            inputValue={config[theInput.label]}
                             onChange={handleChange}
                             inputRequired={true}
                         />
@@ -130,17 +137,17 @@ export const Connection = () => {
                         </select>
                     </div>
 
-                    {formOptions.slice(2).map((props) => (
+                    {formOptions.slice(2).map((theInput) => (
                         <Input
-                            key={props.label}
+                            key={theInput.label}
                             inputContClass={style.connectInputCont}
                             inputClass={style.connectInput}
                             inputLabelClass={style.connectLabel}
-                            inputLabel={props.label}
-                            inputType={props.type}
-                            inputName={props.label}
-                            inputDisabled={props.disabled}
-                            inputValue={config[props.label]}
+                            inputLabel={theInput.label}
+                            inputType={theInput.type}
+                            inputName={theInput.label}
+                            inputDisabled={theInput.disabled}
+                            inputValue={config[theInput.label]}
                             onChange={handleChange}
                             inputRequired={true}
                         />
@@ -148,11 +155,11 @@ export const Connection = () => {
                 </div>
             </div>
             <div className={style.connectButtonCont}>
-                <p className={style.connectError}>{appError}</p>
+                <p className={style.connectError}>{props.error}</p>
                 <Button
                     buttonClass={style.connectButton}
                     buttonText="Start"
-                    // buttonDisabled={false}
+                    buttonDisabled={props.loading}
                     handleClick={handleSubmit}
                     buttonType="submit"
                 />
