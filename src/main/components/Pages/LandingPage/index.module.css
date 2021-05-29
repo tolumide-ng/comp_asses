@@ -1,6 +1,8 @@
 .homeCont {
-    padding: 1rem;
     --home-p: 0.2rem;
+    --home-cont-p: 1rem;
+    padding: var(--home-cont-p);
+    display: flex;
 }
 
 .home {
@@ -8,7 +10,7 @@
     grid-template-columns: 0.55fr 0.45fr;
     border: 2px solid var(--color-black);
     width: 100%;
-    height: calc(100vh - 2rem);
+    height: calc(100vh - var(--home-cont-p));
     padding: var(--home-p);
     column-gap: var(--home-p);
 }
@@ -31,10 +33,27 @@
 }
 
 .homeleftTop {
-    height: 6.375rem;
     border: 1px solid var(--color-black);
+    height: 100%;
 }
 
 .homeLeftBottom {
     border: 1px solid var(--color-black);
+}
+
+@media screen and (max-width: 745px) {
+    .homeCont {
+        --home-cont-p: 0.1rem;
+    }
+    .home {
+        grid-template-columns: 1fr;
+    }
+
+    .homeRight {
+        display: none;
+    }
+
+    .homeLeft {
+        grid-template-rows: 10rem 1fr;
+    }
 }
