@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Connection } from "../../UI/atoms/organisms/Connection";
+import { Connection } from "../../UI/organisms/Connection";
 import style from "./index.module.css";
 
 export const LandingPage = () => {

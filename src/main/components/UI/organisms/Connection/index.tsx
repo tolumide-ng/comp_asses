@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Input } from "../../Input";
+import { Input } from "../../atoms/Input";
 import style from "./index.module.css";
 
 const encryptionOptions = [
