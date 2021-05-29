@@ -1,11 +1,12 @@
 import * as React from "react";
 import { Input } from "../../atoms/Input";
 import style from "./index.module.css";
+import { hostDict, portNumber } from "../../../../utilities/ports";
 
 const encryptionOptions = [
-    { label: "STARTTLS", disabledAt: ["POP3"] },
     { label: "SSL/TLS", disabledAt: [] },
     { label: "Unencrypted", disabledAt: [] },
+    { label: "STARTTLS", disabledAt: ["POP3"] },
 ];
 
 const serverOptions = [
@@ -20,24 +21,47 @@ const formOptions = [
     { label: "password", disabled: false, type: "password" },
 ];
 
+const getPort = (serverType: string, encryption: string): string => {
+    return portNumber[serverType][encryption];
+};
+
+const getHost = (serverType: string) => {
+    return hostDict[serverType];
+};
+
+const defaultConfig = {
+    serverType: serverOptions[0].label,
+    encType: encryptionOptions[0].label,
+};
+
 export const Connection = () => {
     const [appState, setAppState] = React.useState<{ [key: string]: string }>({
         username: "",
         password: "",
-        serverType: "",
-        encryption: "",
+        serverType: defaultConfig.serverType,
+        encryption: defaultConfig.encType,
+        server: getHost(defaultConfig.serverType),
+        port: getPort(defaultConfig.serverType, defaultConfig.encType),
     });
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
     ) => {
-        console.log("WITHIN THIS>>>>>");
         const { name, value } = e.target;
-
-        console.log("THE NAME AND THE VALUE>>>>>>", name, value);
 
         setAppState((prevAppState) => ({ ...prevAppState, [name]: value }));
     };
+
+    React.useEffect(() => {
+        const newServer = getHost(appState.serverType);
+        const newPort = getPort(appState.serverType, appState.encryption);
+
+        setAppState((prevAppState) => ({
+            ...prevAppState,
+            port: newPort,
+            server: newServer,
+        }));
+    }, [appState.encryption, appState.serverType]);
 
     return (
         <section className={style.connect}>
