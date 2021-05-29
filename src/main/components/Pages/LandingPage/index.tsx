@@ -4,6 +4,7 @@ import { GetAllMailsDef } from "../../../declarations";
 import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
+import { isEmailValid } from "../../../utilities/validators";
 import { Connection } from "../../UI/organisms/Connection";
 import style from "./index.module.css";
 
@@ -22,22 +23,22 @@ export const LandingPage = () => {
 
     const handleAllMails = (props: GetAllMailsDef) => {
         console.log("ALL THE RECEIVED PROPS", props);
-        if (!props.email || !props.password) {
+        if (!props.email || !props.password || !isEmailValid(props.email)) {
             console.log("THERE WAS AN ERROR");
             return setAppState((prevState) => ({
                 ...prevState,
-                error: "Email and Password is required",
+                error: "Valid Email and Password is required",
             }));
         }
 
         setAppState({ allMails: [], specificMail: {}, error: "" });
 
-        console.log("NOW THAT I AM HERE");
+        console.log("NOW THAT I AM HERE", props.encType);
 
         useActionCall({
             dispatch,
             requestFunc: fetchAllMailsAction,
-            method: "GET",
+            method: "POST",
             path: "all",
             payload: {
                 email: props.email,
@@ -51,11 +52,19 @@ export const LandingPage = () => {
     const handleSpecificMail = () => {};
 
     React.useEffect(() => {
-        if (allMailsSelector.status === "success") {
+        if (allMailsSelector.status === "fetchAllMailsSuccess") {
             console.log("DATA IS BACK NOW>>>>>>>>>>>>>>>>");
             setAppState((prevState) => ({
                 ...prevState,
                 allMails: allMailsSelector.allMails,
+            }));
+        }
+
+        if (allMailsSelector.status === "fetchAllMailsFailure") {
+            console.log("the errors>>>>>", allMailsSelector.error);
+            setAppState((prevState) => ({
+                ...prevState,
+                error: allMailsSelector.error ?? "",
             }));
         }
     }, [allMailsSelector.status]);
@@ -67,7 +76,10 @@ export const LandingPage = () => {
                     <div className={style.homeleftTop}>
                         <Connection
                             handleAllMails={handleAllMails}
-                            loading={allMailsSelector.status === "loading"}
+                            loading={
+                                allMailsSelector.status ===
+                                "fetchAllMailsPending"
+                            }
                             error={appState.error}
                         />
                     </div>

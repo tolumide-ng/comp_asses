@@ -43,7 +43,7 @@ export const Connection = (props: ConnectionPropsDef) => {
         const {
             username: email,
             password,
-            encryptionType: encType,
+            encryption: encType,
             serverType,
         } = config;
 

@@ -1,4 +1,5 @@
 import { axiosCall } from "../../../../utilities/helpers/axiosCall";
+import { readableErrors } from "../../../../utilities/reusables";
 import { AppThunk, StoreActionPropsDefs } from "../../types";
 import {
     FETCH_ALL_MAILS_FAILURE,
@@ -36,6 +37,7 @@ export const fetchAllMailsSuccess = (allMails: []) => ({
 export const fetchAllMailsAction =
     (props: StoreActionPropsDefs): AppThunk =>
     async (dispatch) => {
+        console.log("THE COMPLETE PAYLOAD", props.payload);
         try {
             dispatch(fetchAllMailsPending());
             const response = await axiosCall(props);
@@ -45,6 +47,10 @@ export const fetchAllMailsAction =
             );
             dispatch(fetchAllMailsSuccess(response?.data));
         } catch (error) {
-            dispatch(fetchAllMailsFailure(error));
+            dispatch(
+                fetchAllMailsFailure(
+                    readableErrors[error?.statusCode] ?? error?.message
+                )
+            );
         }
     };
