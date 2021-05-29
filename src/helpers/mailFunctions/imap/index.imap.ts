@@ -3,6 +3,7 @@ import Util from "util";
 import { GetFuncInboxDef } from "../";
 import { UserMessagesDef } from "../index.model";
 import { simpleParser } from "mailparser";
+import { KeyCrypt } from "../../keyCrypt";
 
 const fetchArgs = {
     all: (msgNumber: number) => ({
@@ -39,7 +40,10 @@ export function getImapInbox(props: GetFuncInboxDef): void {
                 bodies: fetchParams.query,
             });
 
-            const userInboxMessages: UserMessagesDef = { data: [] };
+            const userInboxMessages: UserMessagesDef = {
+                data: [],
+                keys: "",
+            };
             const userSpecificMessage: { [key: string]: any } = { data: {} };
 
             fetchRequest.on("message", function (msg: any, seqno: any) {
@@ -119,6 +123,14 @@ export function getImapInbox(props: GetFuncInboxDef): void {
                 imap.end();
 
                 if (props.action === "all") {
+                    KeyCrypt.encrypt(
+                        {
+                            email: props.email,
+                            password: props.password,
+                        },
+                        userInboxMessages,
+                    );
+
                     props.successHandler(userInboxMessages);
                 } else if (props.action === "one") {
                     setTimeout(() => {
