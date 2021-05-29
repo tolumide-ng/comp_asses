@@ -1,4 +1,5 @@
 import { Client, Message } from "yapople";
+import { KeyCrypt } from "../../keyCrypt";
 import { GetFuncInboxDef, UserMessagesDef } from "../index.model";
 
 export async function getPop3Inbox(props: GetFuncInboxDef) {
@@ -12,7 +13,7 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
     };
     const client = new Client(config);
 
-    const usersMessages: UserMessagesDef = { data: [] };
+    const usersMessages: UserMessagesDef = { data: [], keys: "" };
     const userSpecificMessage: { [key: string]: Message[] } = { data: [] };
 
     try {
@@ -43,6 +44,14 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
         await client.quit();
 
         if (props.action === "all") {
+            KeyCrypt.encrypt(
+                {
+                    email: props.email,
+                    password: props.password,
+                },
+                usersMessages,
+            );
+
             props.successHandler(usersMessages);
         } else {
             props.successHandler(userSpecificMessage);

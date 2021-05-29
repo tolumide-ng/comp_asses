@@ -1,39 +1,43 @@
 import crypto, { BinaryLike } from "crypto";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { KeyCryptDef } from ".";
+import { UserMessagesDef } from "../mailFunctions";
 import { ResponseGenerator } from "../responseGenerator/index.helper";
 import { UserInfoDef } from "./index.model";
+import dotenv from "dotenv";
 
-export class KeyCrypt implements KeyCryptDef {
-    private static ALGORITHM: string = "aes-128-cbc'";
+dotenv.config();
+
+export class KeyCrypt {
+    private static ALGORITHM: string = "aes-128-cbc";
 
     private static AES_KEY: string | undefined = process.env.AES_KEY;
 
     private static IV_KEY: BinaryLike | undefined = process.env.IV_KEY;
 
-    encrypt(input: object | string): string {
+    static encrypt(input: object, toUpdate: UserMessagesDef): void {
         const modifiedInput = JSON.stringify(input);
 
-        if (!KeyCrypt.AES_KEY || !KeyCrypt.IV_KEY) {
-            return "";
+        if (KeyCrypt.AES_KEY && KeyCrypt.IV_KEY) {
+            let cypher = crypto.createCipheriv(
+                KeyCrypt.ALGORITHM,
+                Buffer.from(KeyCrypt.AES_KEY),
+                KeyCrypt.IV_KEY,
+            );
+
+            let encrypyted = cypher.update(modifiedInput);
+
+            encrypyted = Buffer.concat([encrypyted, cypher.final()]);
+
+            const key = encrypyted.toString("hex");
+
+            toUpdate.keys = key;
         }
-
-        let cypher = crypto.createCipheriv(
-            KeyCrypt.ALGORITHM,
-            Buffer.from(KeyCrypt.AES_KEY),
-            KeyCrypt.IV_KEY,
-        );
-
-        let encrypyted = cypher.update(modifiedInput);
-
-        encrypyted = Buffer.concat([encrypyted, cypher.final()]);
-
-        return encrypyted.toString("hex");
     }
 
-    decrypt(req: Request, res: Response) {
+    static decrypt(req: Request, res: Response, next: NextFunction) {
         try {
-            const input = req.headers.userKey;
+            const input = req.headers.userkey || req.headers.userKey;
 
             if (!input || typeof input !== "string") {
                 throw Error("");
@@ -54,11 +58,21 @@ export class KeyCrypt implements KeyCryptDef {
             decrypted = Buffer.concat([decrypted, decipher.final()]);
 
             let data = JSON.parse(decrypted.toString()) as UserInfoDef;
-            // req.userInfo = data;
 
-            return decrypted.toString();
+            if (!data.email || !data.password) {
+                throw Error;
+            }
+
+            req.body.email = data.email;
+            req.body.password = data.password;
+
+            next();
         } catch (error) {
-            return ResponseGenerator.sendError(res, 401);
+            return ResponseGenerator.sendError(
+                res,
+                401,
+                "Authentication Error: Please add a valid userKey",
+            );
         }
     }
 }

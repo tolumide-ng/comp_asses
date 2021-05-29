@@ -43,4 +43,5 @@ export interface PortDictDef {
 
 export interface UserMessagesDef {
     data: Array<{ [key: string]: string | Date | object }>;
+    keys: string;
 }

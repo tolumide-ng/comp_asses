@@ -1,3 +1,4 @@
+import { KeyCrypt } from "../../helpers/keyCrypt";
 import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
 import {
     hasLogin,
@@ -24,6 +25,7 @@ export class MailMiddleware {
             hasValidEncryptionType,
             hasValidServerType,
             hasValidId,
+            KeyCrypt.decrypt,
         );
     }
 }
