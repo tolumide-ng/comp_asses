@@ -1,5 +1,6 @@
 export const readableErrors: { [keyt: string]: string } = {
     "401": "Username and Password does not match",
+    "404": "Not Found",
 };
 
 export const appStatusText: { [keyt: string]: string } = {

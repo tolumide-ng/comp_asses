@@ -5,12 +5,10 @@ import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
 import { isEmailValid } from "../../../utilities/validators";
-import { EmptyMail } from "../../UI/molecules/EmptyMail";
 import { Connection } from "../../UI/organisms/Connection";
-import { appStatusText } from "../../../utilities/reusables";
 import style from "./index.module.css";
-import { LoadingContainer } from "../../UI/molecules/LoadingContainer";
 import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
+import { SpecificEmail } from "../../UI/organisms/SpecificEmail";
 
 // HANDLE EMPTY EMAILS SCENARIO
 
@@ -100,6 +98,9 @@ export const LandingPage = () => {
                         />
                     </div>
                     <div className={style.homeLeftBottom}>
+                        <div className="">
+                            <SpecificEmail />
+                        </div>
                         <div className={style.homeMailsMob}>
                             <AllMailsTemp
                                 allMails={appState.allMails}

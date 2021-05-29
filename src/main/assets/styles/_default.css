@@ -5,3 +5,12 @@
     justify-content: center;
     align-items: center;
 }
+
+.appButton {
+    padding: 0.2rem 0.5rem;
+    cursor: pointer;
+}
+
+.appButton:active {
+    transform: scale(0.98);
+}
