@@ -9,11 +9,19 @@ import { EmptyMail } from "../../UI/molecules/EmptyMail";
 import { Connection } from "../../UI/organisms/Connection";
 import { appStatusText } from "../../../utilities/reusables";
 import style from "./index.module.css";
+import { LoadingContainer } from "../../UI/molecules/LoadingContainer";
+import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 
 // HANDLE EMPTY EMAILS SCENARIO
 
+interface AppStateDef {
+    allMails: [];
+    specificMail: {};
+    error: string;
+}
+
 export const LandingPage = () => {
-    const [appState, setAppState] = React.useState({
+    const [appState, setAppState] = React.useState<AppStateDef>({
         allMails: [],
         specificMail: {},
         error: "",
@@ -90,14 +98,10 @@ export const LandingPage = () => {
                     <div className={style.homeLeftBottom}></div>
                 </div>
                 <div className={`${style.homeRight} ${style.homeChild}`}>
-                    {appState.allMails?.length === 0 &&
-                    allMailsSelector.status !== "fetchAllMailsPending" ? (
-                        <EmptyMail
-                            text={appStatusText[allMailsSelector.status]}
-                        />
-                    ) : (
-                        <></>
-                    )}
+                    <AllMailsTemp
+                        allMails={appState.allMails}
+                        allMailsStatus={allMailsSelector.status}
+                    />
                 </div>
             </div>
         </article>

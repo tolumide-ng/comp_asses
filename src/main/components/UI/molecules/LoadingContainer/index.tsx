@@ -5,7 +5,7 @@ import style from "./index.module.css";
 export const LoadingContainer = () => {
     return (
         <div className="container">
-            <AppLoader context="light" size="big" />
+            <AppLoader context="light" size="small" />
         </div>
     );
 };

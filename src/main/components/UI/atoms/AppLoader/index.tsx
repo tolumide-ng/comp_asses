@@ -21,7 +21,7 @@ export const AppLoader = (props: AppLoaderDef) => {
                 } ${
                     props.size === "small"
                         ? style.asmChildSmall
-                        : style.asmChildLight
+                        : style.asmChildBig
                 }
                 
                     `}
@@ -34,7 +34,7 @@ export const AppLoader = (props: AppLoaderDef) => {
                 } ${
                     props.size === "small"
                         ? style.asmChildSmall
-                        : style.asmChildLight
+                        : style.asmChildBig
                 }
             
                 `}
@@ -47,7 +47,7 @@ export const AppLoader = (props: AppLoaderDef) => {
                 } ${
                     props.size === "small"
                         ? style.asmChildSmall
-                        : style.asmChildLight
+                        : style.asmChildBig
                 }
             
                 `}
@@ -60,7 +60,7 @@ export const AppLoader = (props: AppLoaderDef) => {
                 } ${
                     props.size === "small"
                         ? style.asmChildSmall
-                        : style.asmChildLight
+                        : style.asmChildBig
                 }
             
                 `}
