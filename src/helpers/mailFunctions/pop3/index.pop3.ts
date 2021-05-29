@@ -58,6 +58,7 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
         }
     } catch (error) {
         await client.quit();
+
         return props.errorHandler(error);
     }
 }

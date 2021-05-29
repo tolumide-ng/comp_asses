@@ -12,5 +12,9 @@ export const mailErrorFunc =
             );
         }
 
+        if (error.message.toLowerCase().includes("credentials")) {
+            return ResponseGenerator.sendError(res, 401);
+        }
+
         return ResponseGenerator.sendError(res, code);
     };
