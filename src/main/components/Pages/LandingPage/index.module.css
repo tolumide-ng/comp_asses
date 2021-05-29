@@ -20,3 +20,24 @@
     padding-right: var(--ldpg-r-pr);
     padding-left: var(--ldpg-r-pl);
 }
+
+.frontPageSettingsTable {
+    border-color: black;
+    border-width: 2px;
+    border-style: solid;
+}
+
+.frontPageSettingsTableInner {
+    border: solid 1px black;
+}
+
+#frontMessageListTd {
+    border: solid 1px black;
+    height: 100%;
+    vertical-align: top;
+}
+
+.frontMessageBody {
+    border: black 1px solid;
+    vertical-align: top;
+}
