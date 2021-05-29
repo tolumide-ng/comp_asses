@@ -28,7 +28,9 @@ export const Connection = () => {
         encryption: "",
     });
 
-    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const handleChange = (
+        e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+    ) => {
         console.log("WITHIN THIS>>>>>");
         const { name, value } = e.target;
 
@@ -48,6 +50,7 @@ export const Connection = () => {
                         name="serverType"
                         id=""
                         className={style.connectInput}
+                        onChange={handleChange}
                     >
                         {serverOptions.map((server) => (
                             <option
@@ -89,6 +92,7 @@ export const Connection = () => {
                         name="encryption"
                         id=""
                         className={style.connectInput}
+                        onChange={handleChange}
                     >
                         {encryptionOptions.map((encType) => (
                             <option
