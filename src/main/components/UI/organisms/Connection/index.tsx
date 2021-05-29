@@ -17,7 +17,7 @@ const formOptions = [
     { label: "server", disabled: true, type: "string" },
     { label: "port", disabled: true, type: "string" },
     { label: "username", disabled: false, type: "string" },
-    { label: "password", disabled: false, type: "passsword" },
+    { label: "password", disabled: false, type: "password" },
 ];
 
 export const Connection = () => {
@@ -27,6 +27,15 @@ export const Connection = () => {
         serverType: "",
         encryption: "",
     });
+
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        console.log("WITHIN THIS>>>>>");
+        const { name, value } = e.target;
+
+        console.log("THE NAME AND THE VALUE>>>>>>", name, value);
+
+        setAppState((prevAppState) => ({ ...prevAppState, [name]: value }));
+    };
 
     return (
         <section className={style.connect}>
@@ -46,6 +55,7 @@ export const Connection = () => {
                                     appState.encryption
                                 )}
                                 value={server.label}
+                                key={server.label}
                             >
                                 {server.label}
                             </option>
@@ -64,6 +74,8 @@ export const Connection = () => {
                         inputDisabled={props.disabled}
                         inputValue={appState[props.label]}
                         key={props.label}
+                        onChange={handleChange}
+                        inputRequired={true}
                     />
                 ))}
             </div>
@@ -83,6 +95,7 @@ export const Connection = () => {
                                 disabled={encType.disabledAt.includes(
                                     appState.serverType
                                 )}
+                                key={encType.label}
                                 value={encType.label}
                             >
                                 {encType.label}
@@ -93,6 +106,7 @@ export const Connection = () => {
 
                 {formOptions.slice(2).map((props) => (
                     <Input
+                        key={props.label}
                         inputContClass={style.connectInputCont}
                         inputClass={style.connectInput}
                         inputLabelClass={style.connectLabel}
@@ -101,7 +115,8 @@ export const Connection = () => {
                         inputName={props.label}
                         inputDisabled={props.disabled}
                         inputValue={appState[props.label]}
-                        key={props.label}
+                        onChange={handleChange}
+                        inputRequired={true}
                     />
                 ))}
             </div>

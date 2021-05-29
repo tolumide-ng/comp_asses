@@ -10,6 +10,8 @@ interface InputProps {
     inputName: string;
     inputDisabled: boolean;
     inputValue: string;
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    inputRequired: boolean;
 }
 
 export const Input = (props: InputProps) => {
@@ -19,10 +21,13 @@ export const Input = (props: InputProps) => {
                 {props.inputLabel}{" "}
             </label>
             <input
+                onChange={props.onChange}
                 type={props.inputType}
                 disabled={props.inputDisabled}
                 value={props.inputValue}
                 className={props.inputClass}
+                name={props.inputName}
+                required={props.inputRequired}
             />
         </div>
     );
