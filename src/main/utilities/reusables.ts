@@ -13,7 +13,6 @@ export const getInitials = (name: string): string => {
     if (name) {
         const splitName = name.trim().split(" ");
 
-        console.log(splitName);
         if (splitName.length > 1) {
             return (
                 splitName[0][0].toLocaleUpperCase() +

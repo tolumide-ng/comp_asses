@@ -39,7 +39,7 @@ export const fetchSpecificMailAction =
         try {
             dispatch(fetchSpecificMailPending());
             const response = await axiosCall(props);
-            dispatch(fetchSpecificMailSuccess(response?.data));
+            dispatch(fetchSpecificMailSuccess(response?.data?.data));
         } catch (error) {
             fetchSpecificMailFailure(
                 readableErrors[error?.statusCode] ?? error?.message

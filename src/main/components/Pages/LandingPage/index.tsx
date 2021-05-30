@@ -1,6 +1,10 @@
 import * as React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { AllSpecificMailsDef, GetAllMailsDef } from "../../../declarations";
+import {
+    AllSpecificMailsDef,
+    GetAllMailsDef,
+    SpecificMailResponseDef,
+} from "../../../declarations";
 import { fetchAllMailsAction } from "../../../store/modules/allMails/actions";
 import { RootState } from "../../../store/modules/types";
 import { useActionCall } from "../../../utilities/hooks/useActionCall";
@@ -15,7 +19,7 @@ import { fetchSpecificMailAction } from "../../../store/modules/specificMail/act
 
 interface AppStateDef {
     allMails: Array<AllSpecificMailsDef>;
-    specificMail: {};
+    specificMail: SpecificMailResponseDef | null;
     error: string;
     config: {
         encType: string;
@@ -26,7 +30,7 @@ interface AppStateDef {
 export const LandingPage = () => {
     const [appState, setAppState] = React.useState<AppStateDef>({
         allMails: [],
-        specificMail: {},
+        specificMail: null,
         error: "",
         config: {
             encType: "",
@@ -38,6 +42,10 @@ export const LandingPage = () => {
 
     const allMailsSelector = useSelector(
         (state: RootState) => state.fetchAllMailsReducer
+    );
+
+    const specificMailSelector = useSelector(
+        (state: RootState) => state.fetchSpecificMailReducer
     );
 
     const handleAllMails = (props: GetAllMailsDef) => {
@@ -52,7 +60,7 @@ export const LandingPage = () => {
 
         setAppState({
             allMails: [],
-            specificMail: {},
+            specificMail: null,
             error: "",
             config: {
                 encType: props.encType,
@@ -115,6 +123,23 @@ export const LandingPage = () => {
         }
     }, [allMailsSelector.status]);
 
+    React.useEffect(() => {
+        if (specificMailSelector.status === "fetchSpecificMailSuccess") {
+            console.log("THE STATE", specificMailSelector.specificMail);
+            setAppState((prevState) => ({
+                ...prevState,
+                specificMail: specificMailSelector.specificMail,
+            }));
+        }
+
+        if (specificMailSelector.status === "fetchSpecificMailPending") {
+            setAppState((prevState) => ({
+                ...prevState,
+                error: specificMailSelector.error ?? "",
+            }));
+        }
+    }, [specificMailSelector.status]);
+
     return (
         <article className={style.homeCont}>
             <div className={style.home}>
@@ -131,7 +156,23 @@ export const LandingPage = () => {
                     </div>
                     <div className={style.homeLeftBottom}>
                         <div className="">
-                            <SpecificEmail />
+                            {appState?.specificMail ? (
+                                <SpecificEmail
+                                    // html={appState?.specificMail?.html ?? ""}
+                                    subject={
+                                        appState?.specificMail?.subject ?? ""
+                                    }
+                                    date={appState?.specificMail?.date ?? ""}
+                                    html={appState?.specificMail?.html ?? ""}
+                                    messagedId={
+                                        appState?.specificMail?.messagedId ?? ""
+                                    }
+                                    to={appState?.specificMail?.to ?? ""}
+                                    from={appState?.specificMail?.from ?? ""}
+                                />
+                            ) : (
+                                <></>
+                            )}
                         </div>
                         <div className={style.homeMailsMob}>
                             <AllMailsTemp

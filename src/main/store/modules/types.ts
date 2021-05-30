@@ -19,7 +19,7 @@ export interface RootState {
     fetchSpecificMailReducer: {
         status: string;
         error: string | null;
-        allMails: SpecificMailResponseDef;
+        specificMail: SpecificMailResponseDef;
     };
 }
 

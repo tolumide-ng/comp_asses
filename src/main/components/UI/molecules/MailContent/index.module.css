@@ -1,0 +1,3 @@
+.mailC {
+    max-width: calc(max(var(--app-mw), 95vw));
+}

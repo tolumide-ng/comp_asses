@@ -1,18 +1,18 @@
 import * as React from "react";
+import dayjs from "dayjs";
 import { Initials } from "../../atoms/Initials";
 import style from "./index.module.css";
 import { SpecificMailResponseDef } from "../../../../declarations";
 import { Button } from "../../atoms/Button";
+import { MailContent } from "../../molecules/MailContent";
 
 interface SpecificEmailDef extends SpecificMailResponseDef {}
 
-export const SpecificEmail = () => {
+export const SpecificEmail = (props: SpecificEmailDef) => {
     return (
         <article className={style.specEm}>
             <div className={style.specEmHead}>
-                <h1 className={style.specEmSubject}>
-                    My Email that is received
-                </h1>
+                <h1 className={style.specEmSubject}>{props.subject}</h1>
             </div>
             <div className={style.specEmBody}>
                 <div className={style.specEmInfos}>
@@ -23,14 +23,20 @@ export const SpecificEmail = () => {
 
                         <div className={style.specEmBasics}>
                             <p className={style.specEmSenderName}>
-                                email Sender
+                                {props.from?.name ?? props.from}
                             </p>
 
-                            <p className={style.specEmSenderEmail}>
-                                emailSender@sender
-                            </p>
+                            {props?.from?.name ? (
+                                <p className={style.specEmSenderEmail}>
+                                    {props.from?.address}
+                                </p>
+                            ) : (
+                                <></>
+                            )}
 
-                            <p className={style.specEmDate}>date</p>
+                            <p className={style.specEmDate}>
+                                {dayjs(props.date).format("MMMM D YYYY")}
+                            </p>
                         </div>
                     </div>
 
@@ -42,6 +48,10 @@ export const SpecificEmail = () => {
                             buttonType="button"
                         />
                     </div>
+                </div>
+
+                <div className="">
+                    <MailContent content={props.html} />
                 </div>
             </div>
         </article>

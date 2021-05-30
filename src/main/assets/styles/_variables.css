@@ -9,6 +9,7 @@
     --color-gigas: #3c3f9e;
 
     --app-w: 745px;
+    --app-mw: 1500px;
 }
 
 @media screen and (max-width: 1024px) {
