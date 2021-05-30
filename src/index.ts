@@ -1,7 +1,7 @@
 import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
-import { ResponseGenerator } from "./helpers/responseGenerator/index.helper";
+import { ResponseGenerator } from "./helpers/responseGenerator";
 import Routes from "./routes/v1";
 
 dotenv.config();

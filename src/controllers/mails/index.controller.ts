@@ -4,7 +4,7 @@ import { FetchActionTypeDef, MailFuncDef } from "../../helpers/mailFunctions";
 import { getImapInbox } from "../../helpers/mailFunctions/imap/index.imap";
 import { MailFunction } from "../../helpers/mailFunctions/index.mail";
 import { getPop3Inbox } from "../../helpers/mailFunctions/pop3";
-import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
+import { ResponseGenerator } from "../../helpers/responseGenerator";
 
 export class MailController {
     static hostDict: { [key: string]: string } = {
