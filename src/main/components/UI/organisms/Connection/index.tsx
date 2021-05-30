@@ -162,6 +162,7 @@ export const Connection = (props: ConnectionPropsDef) => {
                     buttonDisabled={props.loading}
                     handleClick={handleSubmit}
                     buttonType="submit"
+                    buttonAriaLabel="Start"
                 />
             </div>
         </form>
