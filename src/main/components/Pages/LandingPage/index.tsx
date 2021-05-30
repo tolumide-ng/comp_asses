@@ -14,6 +14,7 @@ import style from "./index.module.css";
 import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 import { SpecificEmail } from "../../UI/organisms/SpecificEmail";
 import { fetchSpecificMailAction } from "../../../store/modules/specificMail/actions";
+import { SpecificMailTemp } from "../../UI/template/SpecificMailTemp";
 
 // HANDLE EMPTY EMAILS SCENARIO
 
@@ -88,6 +89,8 @@ export const LandingPage = () => {
         const { encType, serverType } = appState.config;
         const userKey = allMailsSelector.allMails.keys;
 
+        setAppState((prevState) => ({ ...prevState, specificMail: null }));
+
         useActionCall({
             dispatch,
             requestFunc: fetchSpecificMailAction,
@@ -156,23 +159,10 @@ export const LandingPage = () => {
                     </div>
                     <div className={style.homeLeftBottom}>
                         <div className="">
-                            {appState?.specificMail ? (
-                                <SpecificEmail
-                                    // html={appState?.specificMail?.html ?? ""}
-                                    subject={
-                                        appState?.specificMail?.subject ?? ""
-                                    }
-                                    date={appState?.specificMail?.date ?? ""}
-                                    html={appState?.specificMail?.html ?? ""}
-                                    messagedId={
-                                        appState?.specificMail?.messagedId ?? ""
-                                    }
-                                    to={appState?.specificMail?.to ?? ""}
-                                    from={appState?.specificMail?.from ?? ""}
-                                />
-                            ) : (
-                                <></>
-                            )}
+                            <SpecificMailTemp
+                                data={appState.specificMail}
+                                status={specificMailSelector.status}
+                            />
                         </div>
                         <div className={style.homeMailsMob}>
                             <AllMailsTemp
