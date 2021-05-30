@@ -1,0 +1,9 @@
+.load {
+    display: flex;
+    flex-direction: column;
+}
+
+.loadText {
+    text-align: center;
+    margin-top: 3rem;
+}

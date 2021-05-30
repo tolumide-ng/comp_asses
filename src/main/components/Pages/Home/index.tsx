@@ -17,7 +17,7 @@ export const HomePage = () => {
     } = useAppLogic();
 
     return (
-        <article className={style.homeCont}>
+        <article className={style.homeCont} aria-label="home">
             <div className={style.home} ref={homeRef}>
                 <div className={`${style.homeLeft} ${style.homeChild}`}>
                     <div className={style.homeleftTop}>

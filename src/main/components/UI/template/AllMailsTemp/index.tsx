@@ -22,7 +22,11 @@ export const AllMailsTemp = (props: AllMailsTempDef) => {
                 <></>
             )}
 
-            {props.allMailsStatus === "loading" ? <LoadingContainer /> : <></>}
+            {props.allMailsStatus === "loading" ? (
+                <LoadingContainer text="Loading, this might take some time 😊 " />
+            ) : (
+                <></>
+            )}
 
             {props.allMailsStatus === "success" && props.allMails?.length ? (
                 <AllMails
