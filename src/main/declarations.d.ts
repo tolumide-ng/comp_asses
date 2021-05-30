@@ -44,3 +44,5 @@ export interface SpecificMailResponseDef {
     to: MailSenderDef | string;
     date: string | Date;
 }
+
+export type StatusTypeDef = "rest" | "loading" | "success" | "failure";

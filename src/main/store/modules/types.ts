@@ -5,6 +5,7 @@ import { ForAxiosDefs } from "../../commonTypes";
 import {
     AllMailsResponseDef,
     SpecificMailResponseDef,
+    StatusTypeDef,
 } from "../../declarations";
 
 export interface RootState {
@@ -12,12 +13,12 @@ export interface RootState {
         display: boolean;
     };
     fetchAllMailsReducer: {
-        status: string;
+        status: StatusTypeDef;
         error: string | null;
         allMails: AllMailsResponseDef;
     };
     fetchSpecificMailReducer: {
-        status: string;
+        status: StatusTypeDef;
         error: string | null;
         specificMail: SpecificMailResponseDef;
     };

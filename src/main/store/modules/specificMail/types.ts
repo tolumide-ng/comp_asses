@@ -1,3 +1,4 @@
+import { StatusTypeDef } from "../../../declarations";
 import {
     FETCH_SPECIFIC_MAIL_FAILURE,
     FETCH_SPECIFIC_MAIL_PENDING,
@@ -6,7 +7,7 @@ import {
 
 export interface FetchSpecificMailStateDef {
     readonly error: string | null;
-    readonly status: string;
+    readonly status: StatusTypeDef;
     readonly specificMail: {};
 }
 

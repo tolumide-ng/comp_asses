@@ -1,5 +1,8 @@
 import * as React from "react";
-import { SpecificMailResponseDef } from "../../../../declarations";
+import {
+    SpecificMailResponseDef,
+    StatusTypeDef,
+} from "../../../../declarations";
 import { EmptyMail } from "../../molecules/EmptyMail";
 import { LoadingContainer } from "../../molecules/LoadingContainer";
 import { SpecificEmail } from "../../organisms/SpecificEmail";
@@ -7,7 +10,7 @@ import style from "./index.module.css";
 
 interface SpecificMailTempDef {
     data: SpecificMailResponseDef | null;
-    status: string;
+    status: StatusTypeDef;
     displayClass: string;
     handleGoBack: () => void;
 }
@@ -15,7 +18,7 @@ interface SpecificMailTempDef {
 export const SpecificMailTemp = (props: SpecificMailTempDef) => {
     return (
         <div className={props.displayClass}>
-            {props.status === "fetchSpecificMailSuccess" && props.data ? (
+            {props.status === "success" && props.data ? (
                 <SpecificEmail
                     subject={props?.data?.subject ?? ""}
                     date={props?.data?.date ?? ""}
@@ -29,11 +32,7 @@ export const SpecificMailTemp = (props: SpecificMailTempDef) => {
                 <></>
             )}
 
-            {props.status === "fetchSpecificMailPending" ? (
-                <LoadingContainer />
-            ) : (
-                <></>
-            )}
+            {props.status === "loading" ? <LoadingContainer /> : <></>}
 
             {props.status === "rest" ? <EmptyMail text="Hello" /> : <></>}
         </div>

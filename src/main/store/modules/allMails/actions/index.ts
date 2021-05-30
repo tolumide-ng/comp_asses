@@ -10,7 +10,7 @@ import {
 export const fetchAllMailsPending = () => ({
     type: FETCH_ALL_MAILS_PENDING,
     payload: {
-        status: "fetchAllMailsPending",
+        status: "loading",
         error: null,
         allMails: [],
     },
@@ -19,7 +19,7 @@ export const fetchAllMailsPending = () => ({
 export const fetchAllMailsFailure = (error: string) => ({
     type: FETCH_ALL_MAILS_FAILURE,
     payload: {
-        status: "fetchAllMailsFailure",
+        status: "failure",
         error,
         allMails: [],
     },
@@ -28,7 +28,7 @@ export const fetchAllMailsFailure = (error: string) => ({
 export const fetchAllMailsSuccess = (allMails: []) => ({
     type: FETCH_ALL_MAILS_SUCCESS,
     payload: {
-        status: "fetchAllMailsSuccess",
+        status: "success",
         error: null,
         allMails,
     },

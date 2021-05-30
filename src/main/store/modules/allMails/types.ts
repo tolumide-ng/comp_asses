@@ -1,3 +1,4 @@
+import { StatusTypeDef } from "../../../declarations";
 import {
     FETCH_ALL_MAILS_FAILURE,
     FETCH_ALL_MAILS_PENDING,
@@ -6,7 +7,7 @@ import {
 
 export interface FetchAllMailsStateDef {
     readonly error: string | null;
-    readonly status: string;
+    readonly status: StatusTypeDef;
     readonly allMails: [];
 }
 

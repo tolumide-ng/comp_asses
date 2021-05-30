@@ -108,14 +108,14 @@ export const useAppLogic = () => {
     };
 
     React.useEffect(() => {
-        if (allMailsSelector.status === "fetchAllMailsSuccess") {
+        if (allMailsSelector.status === "success") {
             setAppState((prevState) => ({
                 ...prevState,
                 allMails: allMailsSelector.allMails.data,
             }));
         }
 
-        if (allMailsSelector.status === "fetchAllMailsFailure") {
+        if (allMailsSelector.status === "failure") {
             setAppState((prevState) => ({
                 ...prevState,
                 error: allMailsSelector.error ?? "",
@@ -124,7 +124,7 @@ export const useAppLogic = () => {
     }, [allMailsSelector.status]);
 
     React.useEffect(() => {
-        if (specificMailSelector.status === "fetchSpecificMailSuccess") {
+        if (specificMailSelector.status === "success") {
             console.log("THE STATE", specificMailSelector.specificMail);
             setAppState((prevState) => ({
                 ...prevState,
@@ -132,7 +132,7 @@ export const useAppLogic = () => {
             }));
         }
 
-        if (specificMailSelector.status === "fetchSpecificMailPending") {
+        if (specificMailSelector.status === "loading") {
             setAppState((prevState) => ({
                 ...prevState,
                 error: specificMailSelector.error ?? "",

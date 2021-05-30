@@ -9,7 +9,7 @@ import {
 export const fetchSpecificMailPending = () => ({
     type: FETCH_SPECIFIC_MAIL_PENDING,
     payload: {
-        status: "fetchSpecificMailPending",
+        status: "loading",
         error: null,
         specificMail: {},
     },
@@ -18,7 +18,7 @@ export const fetchSpecificMailPending = () => ({
 export const fetchSpecificMailFailure = (error: string) => ({
     type: FETCH_SPECIFIC_MAIL_PENDING,
     payload: {
-        status: "fetchSpecificMailFailure",
+        status: "failure",
         error,
         specificMail: {},
     },
@@ -27,7 +27,7 @@ export const fetchSpecificMailFailure = (error: string) => ({
 export const fetchSpecificMailSuccess = (specificMail: {}) => ({
     type: FETCH_SPECIFIC_MAIL_SUCCESS,
     payload: {
-        status: "fetchSpecificMailSuccess",
+        status: "success",
         error: null,
         specificMail,
     },

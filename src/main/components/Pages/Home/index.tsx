@@ -5,8 +5,6 @@ import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 import { SpecificMailTemp } from "../../UI/template/SpecificMailTemp";
 import { useAppLogic } from "./useAppLogic";
 
-// HANDLE EMPTY EMAILS SCENARIO
-
 export const LandingPage = () => {
     const {
         homeRef,
@@ -25,10 +23,7 @@ export const LandingPage = () => {
                     <div className={style.homeleftTop}>
                         <Connection
                             handleAllMails={handleAllMails}
-                            loading={
-                                allMailsSelector.status ===
-                                "fetchAllMailsPending"
-                            }
+                            loading={allMailsSelector.status === "loading"}
                             error={appState.error}
                         />
                     </div>
@@ -41,8 +36,7 @@ export const LandingPage = () => {
                         />
                         <div
                             className={`${style.homeMailsMob} ${
-                                allMailsSelector.status !==
-                                    "fetchAllMailsSuccess" &&
+                                allMailsSelector.status !== "success" &&
                                 style.homeMailsMobLoading
                             }`}
                         >
