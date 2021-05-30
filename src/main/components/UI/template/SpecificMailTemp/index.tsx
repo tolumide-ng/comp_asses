@@ -3,6 +3,7 @@ import {
     SpecificMailResponseDef,
     StatusTypeDef,
 } from "../../../../declarations";
+import { appStatusText } from "../../../../utilities/reusables";
 import { EmptyMail } from "../../molecules/EmptyMail";
 import { LoadingContainer } from "../../molecules/LoadingContainer";
 import { SpecificEmail } from "../../organisms/SpecificEmail";
@@ -13,11 +14,15 @@ interface SpecificMailTempDef {
     status: StatusTypeDef;
     displayClass: string;
     handleGoBack: () => void;
+    allMailsStatus: StatusTypeDef;
 }
 
 export const SpecificMailTemp = (props: SpecificMailTempDef) => {
     return (
-        <div className={props.displayClass}>
+        <div
+            className={`${props.displayClass} ${style.specMail}`}
+            aria-label="view email"
+        >
             {props.status === "success" && props.data ? (
                 <SpecificEmail
                     subject={props?.data?.subject ?? ""}
@@ -31,10 +36,20 @@ export const SpecificMailTemp = (props: SpecificMailTempDef) => {
             ) : (
                 <></>
             )}
-
-            {props.status === "loading" ? <LoadingContainer /> : <></>}
-
-            {props.status === "rest" ? <EmptyMail text="Hello" /> : <></>}
+            {[props.status, props.allMailsStatus].includes("loading") ? (
+                <LoadingContainer />
+            ) : (
+                <></>
+            )}
+            {props.status === "rest" && props.allMailsStatus !== "loading" ? (
+                <EmptyMail
+                    text={
+                        appStatusText[`${props.status}-${props.allMailsStatus}`]
+                    }
+                />
+            ) : (
+                <></>
+            )}
         </div>
     );
 };

@@ -33,6 +33,7 @@ export const LandingPage = () => {
                             status={specificMailSelector.status}
                             displayClass={style.homeSpecific}
                             handleGoBack={handleGoBack}
+                            allMailsStatus={allMailsSelector.status}
                         />
                         <div
                             className={`${style.homeMailsMob} ${

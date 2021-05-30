@@ -1,5 +1,5 @@
 import * as React from "react";
-import { AllSpecificMailsDef } from "../../../../declarations";
+import { AllSpecificMailsDef, StatusTypeDef } from "../../../../declarations";
 import { appStatusText } from "../../../../utilities/reusables";
 import { EmptyMail } from "../../molecules/EmptyMail";
 import { LoadingContainer } from "../../molecules/LoadingContainer";
@@ -8,13 +8,13 @@ import style from "./index.module.css";
 
 interface AllMailsTempDef {
     allMails: Array<AllSpecificMailsDef>;
-    allMailsStatus: string;
+    allMailsStatus: StatusTypeDef;
     handleSpecificMail: (index: number) => void;
 }
 
 export const AllMailsTemp = (props: AllMailsTempDef) => {
     return (
-        <div className={`${style.allMailTmp} container`}>
+        <div className={`${style.allMailTmp} container`} role="feed">
             {props.allMails?.length === 0 &&
             props.allMailsStatus !== "loading" ? (
                 <EmptyMail text={appStatusText[props.allMailsStatus]} />
