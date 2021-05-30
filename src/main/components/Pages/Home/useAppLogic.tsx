@@ -47,12 +47,9 @@ export const useAppLogic = () => {
     );
 
     const handleAllMails = (props: GetAllMailsDef) => {
-        console.log("ALL THE RECEIVED PROPS", props);
-
         setDisplaySpcific(false);
 
         if (!props.email || !props.password || !isEmailValid(props.email)) {
-            console.log("THERE WAS AN ERROR");
             return setAppState((prevState) => ({
                 ...prevState,
                 error: "Valid Email and Password is required",
@@ -68,8 +65,6 @@ export const useAppLogic = () => {
                 serverType: props.serverType,
             },
         });
-
-        console.log("NOW THAT I AM HERE", props.encType);
 
         useActionCall({
             dispatch,
@@ -125,7 +120,6 @@ export const useAppLogic = () => {
 
     React.useEffect(() => {
         if (specificMailSelector.status === "success") {
-            console.log("THE STATE", specificMailSelector.specificMail);
             setAppState((prevState) => ({
                 ...prevState,
                 specificMail: specificMailSelector.specificMail,
