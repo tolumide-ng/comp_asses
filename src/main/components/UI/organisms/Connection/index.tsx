@@ -157,7 +157,7 @@ export const Connection = (props: ConnectionPropsDef) => {
             <div className={style.connectButtonCont}>
                 <p className={style.connectError}>{props.error}</p>
                 <Button
-                    buttonClass={style.connectButton}
+                    buttonClass="appButton"
                     buttonText="Start"
                     buttonDisabled={props.loading}
                     handleClick={handleSubmit}

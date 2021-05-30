@@ -35,3 +35,14 @@ export interface AllMailsResponseDef {
     data: Array<AllSpecificMailsDef>;
     keys: string;
 }
+
+export interface SpecificMailResponseDef {
+    html: string;
+    subject: string;
+    messagedId: string;
+    from: MailSenderDef;
+    to: MailSenderDef | string;
+    date: string | Date;
+}
+
+export type StatusTypeDef = "rest" | "loading" | "success" | "failure";

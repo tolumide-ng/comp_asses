@@ -16,20 +16,15 @@ export const AllMailsTemp = (props: AllMailsTempDef) => {
     return (
         <div className={`${style.allMailTmp} container`}>
             {props.allMails?.length === 0 &&
-            props.allMailsStatus !== "fetchAllMailsPending" ? (
+            props.allMailsStatus !== "loading" ? (
                 <EmptyMail text={appStatusText[props.allMailsStatus]} />
             ) : (
                 <></>
             )}
 
-            {props.allMailsStatus === "fetchAllMailsPending" ? (
-                <LoadingContainer />
-            ) : (
-                <></>
-            )}
+            {props.allMailsStatus === "loading" ? <LoadingContainer /> : <></>}
 
-            {props.allMailsStatus === "fetchAllMailsSuccess" &&
-            props.allMails?.length ? (
+            {props.allMailsStatus === "success" && props.allMails?.length ? (
                 <AllMails
                     allMails={props.allMails}
                     handleSpecificMail={props.handleSpecificMail}

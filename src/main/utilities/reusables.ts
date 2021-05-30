@@ -1,18 +1,18 @@
 export const readableErrors: { [keyt: string]: string } = {
     "401": "Username and Password does not match",
+    "404": "Not Found",
 };
 
 export const appStatusText: { [keyt: string]: string } = {
-    fetchAllMailsSuccess: "You do not have any mail at the moment",
+    success: "You do not have any mail at the moment",
     rest: "Enter your email and password to view your mails",
-    fetchAllMailsFailure: "There was a problem fetching your mails",
+    failure: "There was a problem fetching your mails",
 };
 
 export const getInitials = (name: string): string => {
     if (name) {
         const splitName = name.trim().split(" ");
 
-        console.log(splitName);
         if (splitName.length > 1) {
             return (
                 splitName[0][0].toLocaleUpperCase() +
