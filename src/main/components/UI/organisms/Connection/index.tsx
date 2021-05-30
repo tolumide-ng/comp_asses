@@ -62,7 +62,11 @@ export const Connection = (props: ConnectionPropsDef) => {
     }, [config.encryption, config.serverType]);
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form
+            onSubmit={handleSubmit}
+            role="form"
+            aria-label="connect to your mail server"
+        >
             <div className={style.connect}>
                 <div className={style.connectLeft}>
                     <div className={style.connectInputCont}>

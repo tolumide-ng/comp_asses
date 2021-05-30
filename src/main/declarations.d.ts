@@ -21,7 +21,6 @@ export interface GetSpecificMailDef extends GetAllMailsDef {
 export interface AllSpecificMailsDef {
     date: string | Date;
     subject: string;
-    priority: string;
     from: MailSenderDef;
     messageId: string;
 }
