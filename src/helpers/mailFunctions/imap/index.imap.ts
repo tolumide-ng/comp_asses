@@ -64,17 +64,33 @@ export function getImapInbox(props: GetFuncInboxDef): void {
 
                         const { date, from, to, subject } = parseHeader;
 
-                        const modifiedFrom = from
-                            ? from[0].split("<").join(" ").split(">")
-                            : [];
+                        const modifiedFrom =
+                            from?.length &&
+                            from[0].replace(/[^a-zA-Z ]/g, "").split(" ");
+
+                        let address = "";
+                        let name = "";
+
+                        if (
+                            Array.isArray(modifiedFrom) &&
+                            modifiedFrom?.length
+                        ) {
+                            address = modifiedFrom[modifiedFrom?.length - 1];
+
+                            if (modifiedFrom?.length > 1) {
+                                name = modifiedFrom
+                                    .slice(0, modifiedFrom?.length - 1)
+                                    .join(" ");
+                            } else {
+                                name = modifiedFrom[0];
+                            }
+                        }
 
                         const headerDetails = {
                             dateStr: date[0],
                             from: {
-                                address:
-                                    modifiedFrom?.length > 1 && modifiedFrom[1],
-                                name:
-                                    modifiedFrom?.length > 1 && modifiedFrom[0],
+                                address,
+                                name,
                             },
                             to: to[0],
                             subject: subject?.length ? subject[0] : "",

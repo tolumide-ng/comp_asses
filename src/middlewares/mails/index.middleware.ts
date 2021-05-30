@@ -20,8 +20,6 @@ export class MailMiddleware {
 
     static getSpecificInbox() {
         return ResponseGenerator.composeHandlers(
-            hasLogin,
-            hasValidEmail,
             hasValidEncryptionType,
             hasValidServerType,
             hasValidId,

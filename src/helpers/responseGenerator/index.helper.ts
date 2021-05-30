@@ -16,7 +16,9 @@ export class ResponseGenerator extends Utils {
             ? message
             : this.codeResponseDict[statusCode];
 
-        return res.status(statusCode).send({ message: responseMessage });
+        return res
+            .status(statusCode)
+            .send({ message: responseMessage, statusCode });
     }
 
     static sendSuccess(res: Response, statusCode: number, data: {}) {
@@ -24,7 +26,11 @@ export class ResponseGenerator extends Utils {
 
         return res
             .status(statusCode)
-            .send({ message: this.codeResponseDict[statusCode], ...cleanObj });
+            .send({
+                statusCode,
+                message: this.codeResponseDict[statusCode],
+                ...cleanObj,
+            });
     }
 
     static composeHandlers(...middleware: RequestHandler[]): RequestHandler {
