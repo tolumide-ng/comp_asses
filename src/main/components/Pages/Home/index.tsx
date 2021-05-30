@@ -5,7 +5,7 @@ import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 import { SpecificMailTemp } from "../../UI/template/SpecificMailTemp";
 import { useAppLogic } from "./useAppLogic";
 
-export const LandingPage = () => {
+export const HomePage = () => {
     const {
         homeRef,
         handleAllMails,
@@ -17,7 +17,7 @@ export const LandingPage = () => {
     } = useAppLogic();
 
     return (
-        <article className={style.homeCont}>
+        <article className={style.homeCont} aria-label="home">
             <div className={style.home} ref={homeRef}>
                 <div className={`${style.homeLeft} ${style.homeChild}`}>
                     <div className={style.homeleftTop}>
