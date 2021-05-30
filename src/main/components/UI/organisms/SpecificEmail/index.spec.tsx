@@ -4,15 +4,11 @@ import { fireEvent, render } from "@testing-library/react";
 import { SpecificEmail } from ".";
 import dayjs from "dayjs";
 import { getInitials } from "../../../../utilities/reusables";
+import { generateSpecificMailContent } from "../../../../utilities/helpers/test_helper";
 
 const generateProps = () => ({
     handleGoBack: jest.fn(),
-    html: "<p>the html text</p>",
-    subject: "subject of the email",
-    messagedId: "messageId",
-    from: { name: "senders name", address: "address@email.com" },
-    to: "examplae@example.com",
-    date: "27-02-1994",
+    ...generateSpecificMailContent(),
 });
 
 describe("<SpecificEmail/>", () => {
