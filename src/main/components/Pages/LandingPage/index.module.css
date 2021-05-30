@@ -62,6 +62,8 @@
         --home-cont-p: 0.1rem;
     }
     .home {
+        --home-display-specific: none;
+        --home-display-all: flex;
         grid-template-columns: 1fr;
     }
 
@@ -70,9 +72,20 @@
     }
 
     .homeMailsMob {
+        width: 100%;
+        display: var(--home-display-all);
+        justify-content: center;
+        align-items: center;
+    }
+
+    .homeMailsMobLoading {
+        height: 100%;
+    }
+
+    .homeSpecific {
+        display: var(--home-display-specific);
         height: 100%;
         width: 100%;
-        display: flex;
         justify-content: center;
         align-items: center;
     }

@@ -39,6 +39,8 @@ export const LandingPage = () => {
         },
     });
 
+    const [displaySpecific, setDisplaySpcific] = React.useState(false);
+
     const dispatch = useDispatch();
 
     const allMailsSelector = useSelector(
@@ -51,6 +53,9 @@ export const LandingPage = () => {
 
     const handleAllMails = (props: GetAllMailsDef) => {
         console.log("ALL THE RECEIVED PROPS", props);
+
+        setDisplaySpcific(false);
+
         if (!props.email || !props.password || !isEmailValid(props.email)) {
             console.log("THERE WAS AN ERROR");
             return setAppState((prevState) => ({
@@ -85,11 +90,14 @@ export const LandingPage = () => {
         });
     };
 
+    const handleGoBack = () => setDisplaySpcific(false);
+
     const handleSpecificMail = (index: number) => {
         const { encType, serverType } = appState.config;
         const userKey = allMailsSelector.allMails.keys;
 
         setAppState((prevState) => ({ ...prevState, specificMail: null }));
+        setDisplaySpcific(true);
 
         useActionCall({
             dispatch,
@@ -143,9 +151,24 @@ export const LandingPage = () => {
         }
     }, [specificMailSelector.status]);
 
+    const homeRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (homeRef?.current) {
+            homeRef.current.style.setProperty(
+                "--home-display-all",
+                displaySpecific ? "none" : "flex"
+            );
+            homeRef.current.style.setProperty(
+                "--home-display-specific",
+                displaySpecific ? "flex" : "none"
+            );
+        }
+    }, [displaySpecific]);
+
     return (
         <article className={style.homeCont}>
-            <div className={style.home}>
+            <div className={style.home} ref={homeRef}>
                 <div className={`${style.homeLeft} ${style.homeChild}`}>
                     <div className={style.homeleftTop}>
                         <Connection
@@ -158,13 +181,19 @@ export const LandingPage = () => {
                         />
                     </div>
                     <div className={style.homeLeftBottom}>
-                        <div className="">
-                            <SpecificMailTemp
-                                data={appState.specificMail}
-                                status={specificMailSelector.status}
-                            />
-                        </div>
-                        <div className={style.homeMailsMob}>
+                        <SpecificMailTemp
+                            data={appState.specificMail}
+                            status={specificMailSelector.status}
+                            displayClass={style.homeSpecific}
+                            handleGoBack={handleGoBack}
+                        />
+                        <div
+                            className={`${style.homeMailsMob} ${
+                                allMailsSelector.status !==
+                                    "fetchAllMailsSuccess" &&
+                                style.homeMailsMobLoading
+                            }`}
+                        >
                             <AllMailsTemp
                                 allMails={appState.allMails}
                                 allMailsStatus={allMailsSelector.status}

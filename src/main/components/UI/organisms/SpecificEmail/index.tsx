@@ -6,7 +6,9 @@ import { SpecificMailResponseDef } from "../../../../declarations";
 import { Button } from "../../atoms/Button";
 import { MailContent } from "../../molecules/MailContent";
 
-interface SpecificEmailDef extends SpecificMailResponseDef {}
+interface SpecificEmailDef extends SpecificMailResponseDef {
+    handleGoBack: () => void;
+}
 
 export const SpecificEmail = (props: SpecificEmailDef) => {
     return (
@@ -41,11 +43,11 @@ export const SpecificEmail = (props: SpecificEmailDef) => {
                     </div>
 
                     <div className={style.specEmRight}>
-                        {/*  must only be visible on mobile */}
                         <Button
                             buttonClass="appButton"
                             buttonText="Go Back"
                             buttonType="button"
+                            handleClick={props.handleGoBack}
                         />
                     </div>
                 </div>

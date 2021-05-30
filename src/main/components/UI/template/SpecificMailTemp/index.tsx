@@ -8,11 +8,13 @@ import style from "./index.module.css";
 interface SpecificMailTempDef {
     data: SpecificMailResponseDef | null;
     status: string;
+    displayClass: string;
+    handleGoBack: () => void;
 }
 
 export const SpecificMailTemp = (props: SpecificMailTempDef) => {
     return (
-        <div className="container">
+        <div className={props.displayClass}>
             {props.status === "fetchSpecificMailSuccess" && props.data ? (
                 <SpecificEmail
                     subject={props?.data?.subject ?? ""}
@@ -21,6 +23,7 @@ export const SpecificMailTemp = (props: SpecificMailTempDef) => {
                     messagedId={props.data?.messagedId ?? ""}
                     to={props.data?.to ?? ""}
                     from={props.data?.from ?? ""}
+                    handleGoBack={props.handleGoBack}
                 />
             ) : (
                 <></>
