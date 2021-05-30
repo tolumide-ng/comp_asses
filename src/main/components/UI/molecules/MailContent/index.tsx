@@ -14,7 +14,7 @@ export const MailContent = (props: MailContentDef) => {
                 className=""
                 ref={divRef}
                 dangerouslySetInnerHTML={{
-                    __html: props.content,
+                    __html: String(props.content),
                 }}
             ></div>
         </article>
