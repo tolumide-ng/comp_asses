@@ -17,6 +17,7 @@ export const MailRow = (props: MailRowDef) => {
         <div
             className={style.mailRow}
             onClick={(_e) => props.handleSpecificMail(props.index)}
+            aria-label="email"
         >
             <div className={style.mailRowLeft}>
                 <Initials name={props?.from?.name} />

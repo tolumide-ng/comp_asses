@@ -12,7 +12,7 @@ interface SpecificEmailDef extends SpecificMailResponseDef {
 
 export const SpecificEmail = (props: SpecificEmailDef) => {
     return (
-        <article className={style.specEm}>
+        <article className={style.specEm} aria-label="specific email">
             <div className={style.specEmHead}>
                 <h1 className={style.specEmSubject}>{props.subject}</h1>
             </div>
@@ -20,7 +20,9 @@ export const SpecificEmail = (props: SpecificEmailDef) => {
                 <div className={style.specEmInfos}>
                     <div className={style.specEmLeft}>
                         <div className={style.specEmInitials}>
-                            <Initials name="Ayo B" />
+                            <Initials
+                                name={props.from?.name ?? props.from?.address}
+                            />
                         </div>
 
                         <div className={style.specEmBasics}>
