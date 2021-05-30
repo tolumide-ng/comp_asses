@@ -7,5 +7,9 @@ interface InitialsDef {
 }
 
 export const Initials = (props: InitialsDef) => {
-    return <div className={style.initials}>{getInitials(props.name)}</div>;
+    return (
+        <div aria-label="User Initials" className={style.initials}>
+            {getInitials(props.name)}
+        </div>
+    );
 };

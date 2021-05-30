@@ -12,6 +12,7 @@ export const AppLoader = (props: AppLoaderDef) => {
             className={`${style.asm} ${
                 props.size === "small" ? style.asmSmall : style.asmBig
             }`}
+            role="progressbar"
         >
             <div
                 className={`${style.asmChild} ${

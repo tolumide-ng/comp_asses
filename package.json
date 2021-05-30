@@ -9,7 +9,8 @@
     "dev": "webpack serve",
     "build": "rm -rf ./dist && webpack --env.mode production",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "tesst:watchAll": "jest --watchAll"
   },
   "keywords": [],
   "author": "",
