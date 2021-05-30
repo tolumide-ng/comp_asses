@@ -5,7 +5,7 @@ import { AllMailsTemp } from "../../UI/template/AllMailsTemp";
 import { SpecificMailTemp } from "../../UI/template/SpecificMailTemp";
 import { useAppLogic } from "./useAppLogic";
 
-export const LandingPage = () => {
+export const HomePage = () => {
     const {
         homeRef,
         handleAllMails,
