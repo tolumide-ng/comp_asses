@@ -43,7 +43,6 @@
     "express": "^4.17.1",
     "imap": "^0.8.19",
     "mailparser": "^3.2.0",
-    "poplib": "^0.1.7",
     "yapople": "^0.4.1"
   },
   "husky": {
