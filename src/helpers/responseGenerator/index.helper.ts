@@ -10,6 +10,7 @@ export class ResponseGenerator extends Utils {
         200: "Success",
         401: "Authentication Error",
     };
+    static ResponseGenerator: any;
 
     static sendError(res: Response, statusCode: number, message: string = "") {
         const responseMessage = message

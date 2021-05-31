@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
-import { KeyCrypt } from "../../helpers/keyCrypt";
-import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
+import { ResponseGenerator } from "../../helpers/responseGenerator";
 
 const validEncryptionTypes = ["Unencrypted", "SSL/TLS", "STARTTLS"];
 
@@ -24,7 +23,11 @@ export const hasToken: RequestHandler = async (req, res, next) => {
 
 export const hasLogin: RequestHandler = async (req, res, next) => {
     if (!req.body.password || !req.body.email) {
-        return ResponseGenerator.sendError(res, 400);
+        return ResponseGenerator.sendError(
+            res,
+            400,
+            "Please add a valid email and password",
+        );
     }
 
     next();

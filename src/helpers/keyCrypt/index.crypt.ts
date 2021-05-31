@@ -1,8 +1,7 @@
 import crypto, { BinaryLike } from "crypto";
 import { NextFunction, Request, Response } from "express";
-import { KeyCryptDef } from ".";
 import { UserMessagesDef } from "../mailFunctions";
-import { ResponseGenerator } from "../responseGenerator/index.helper";
+import { ResponseGenerator } from "../responseGenerator";
 import { UserInfoDef } from "./index.model";
 import dotenv from "dotenv";
 

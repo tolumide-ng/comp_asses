@@ -1,5 +1,5 @@
 import { Response } from "express";
-import { ResponseGenerator } from "../../responseGenerator/index.helper";
+import { ResponseGenerator } from "../../responseGenerator";
 
 export const mailErrorFunc =
     (res: Response) =>

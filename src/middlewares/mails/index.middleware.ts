@@ -1,5 +1,5 @@
 import { KeyCrypt } from "../../helpers/keyCrypt";
-import { ResponseGenerator } from "../../helpers/responseGenerator/index.helper";
+import { ResponseGenerator } from "../../helpers/responseGenerator";
 import {
     hasLogin,
     hasValidEmail,
