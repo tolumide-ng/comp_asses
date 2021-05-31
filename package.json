@@ -7,8 +7,8 @@
     "test": "NODE_ENV=test mocha -r ts-node/register src/**/*.test.ts --timeout 20000 --exit",
     "lint": "eslint --init",
     "dev": "nodemon",
-    "build": "tsc",
-    "start": "node dist/index.js",
+    "build": "rm -rf dist && tsc",
+    "start": "npm run build && node dist/index.js",
     "watch": "tsc --watch -p ./tsconfig.json",
     "start:dev": "nodemon ./dist"
   },
