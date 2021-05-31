@@ -2,6 +2,10 @@ import { Client, Message } from "yapople";
 import { KeyCrypt } from "../../keyCrypt";
 import { GetFuncInboxDef, UserMessagesDef } from "../index.model";
 
+export const pop3 = {
+    
+}
+
 export async function getPop3Inbox(props: GetFuncInboxDef) {
     const config = {
         host: props.host,
@@ -63,3 +67,5 @@ export async function getPop3Inbox(props: GetFuncInboxDef) {
         return props.errorHandler(error);
     }
 }
+
+export default { getPop3Inbox };

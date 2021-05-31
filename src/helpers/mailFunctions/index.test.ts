@@ -1,5 +1,4 @@
 import "mocha";
-import { Utils } from "../utils";
 import sinon from "sinon";
 import { Response } from "express";
 import { expect } from "chai";
