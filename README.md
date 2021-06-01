@@ -22,10 +22,14 @@
 
 1. Clone the repository
 2. Cd into the application
-3. Clone the [backend](https://github.com/tolumide-ng/maily_be) and please follow all the instructions there (relating to launching with docker)
-4. Create a local `.env` file and Add Environment variables as listed on the `.env.sample` file (Your `BASE_URL` should be: `http://localhost:9000/` (check the docker-compose.yml file to see why))
-5. Run `docker compose up` or `docker-compose up`
-6. Open your browser and checkout `http://localhost:50000`
+3. Create a local `.env` file and Add Environment variables as listed on the `.env.sample` file:
+   i. Your `BASE_URL` should be: `http://localhost:9000/` (check the docker-compose.yml file to see why),
+   ii. It is compulsory that each of the keys (i.e AES_KEY & IV_KEY) have an exact length of 16
+4. Run `docker compose up` or `docker-compose up`
+5. Open your browser and checkout `http://localhost:50000`
+6. To shut down the application
+   i. `CMD + C `
+   ii. `docker compose down` or `docker-compose down`
 
 Enter your "yahoo" associated email address and password to access your mails
 Checkout how to generate passwords for third party applications on [yahoo](https://help.yahoo.com/kb/generate-third-party-passwords-sln15241.html)
