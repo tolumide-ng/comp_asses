@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint --init",
     "start": "node server.js",
-    "dev": "webpack serve",
+    "dev": "webpack serve --open --port 5000",
     "build": "rm -rf ./dist && webpack --mode production",
     "test": "jest",
     "test:watch": "jest --watch",
