@@ -4,7 +4,7 @@
 
 ### Using your local machine's environment:
 
---- Prequisites: Have `node, npm` installed on your local machine
+--- Prequisites: `at least node version 14, npm` installed on your local machine
 
 1. Clone the repository
 2. Cd into the project
@@ -18,13 +18,13 @@
 
 ### Using the application with docker
 
--- Prerequisites: Habe
+-- Prerequisites: `docker, docker-compose`
 
 1. Clone the repository
 2. Cd into the application
 3. Clone the [backend](https://github.com/tolumide-ng/maily_be) and please follow all the instructions there (relating to launching with docker)
 4. Create a local `.env` file and Add Environment variables as listed on the `.env.sample` file (Your `BASE_URL` should be: `http://localhost:9000/` (check the docker-compose.yml file to see why))
-5. Run `docker compose up`
+5. Run `docker compose up` or `docker-compose up`
 6. Open your browser and checkout `http://localhost:50000`
 
 Enter your "yahoo" associated email address and password to access your mails
