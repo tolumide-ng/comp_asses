@@ -7,7 +7,7 @@
     "lint": "eslint --init",
     "start": "node server.js",
     "dev": "webpack serve",
-    "build": "rm -rf ./dist && webpack --env.mode production",
+    "build": "rm -rf ./dist && webpack --mode production",
     "test": "jest",
     "test:watch": "jest --watch",
     "tesst:watchAll": "jest --watchAll"
