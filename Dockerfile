@@ -5,10 +5,10 @@ WORKDIR /app
 COPY . /app
 ENV AES_KEY AES_KEY
 ENV IV_KEY IV_KEY
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn run build
 RUN ls -a
 # EXPOSE 3000
-CMD ["npm", "start"]
+CMD ["yarn", "run", "start"]
 
 
