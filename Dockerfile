@@ -1,4 +1,4 @@
-FROM node:14.16.1-alpine3.10
+FROM node:14
 RUN apk update && apk add bash && apk add yarn
 RUN apk add git
 RUN yarn
