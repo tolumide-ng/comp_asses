@@ -3,7 +3,7 @@ services:
     api:
         # image: tolumide/maily_be
         build:
-            dockerfile: dockerfile
+            dockerfile: Dockerfile
             context: ./api
         environment:
             AES_KEY: ${AES_KEY}
