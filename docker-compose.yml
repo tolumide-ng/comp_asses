@@ -1,14 +1,18 @@
 version: "3.7"
 services:
     api:
-        image: tolumide/maily_be
+        build:
+            dockerfile: Dockerfile
+            context: ./api
         environment:
             AES_KEY: ${AES_KEY}
             IV_KEY: ${IV_KEY}
         ports:
-            - "9000:4000"
+            - "4000:4000"
     client:
-        image: tolumide/maily_fe
+        build:
+            dockerfile: Dockerfile
+            context: ./client
         environment:
             BASE_URL: ${BASE_URL}
         ports:
