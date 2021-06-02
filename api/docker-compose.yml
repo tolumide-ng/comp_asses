@@ -1,0 +1,11 @@
+version: "3.7"
+services:
+    web:
+        image: tolumide/maily_be
+        container_name: "backend"
+        ports:
+            - "9000:4000"
+        environment:
+            AES_KEY: ${AES_KEY}
+            IV_KEY: ${IV_KEY}
+        command: ["npm", "run", "start"]
