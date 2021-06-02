@@ -8,7 +8,7 @@
     "lint": "eslint --init",
     "dev": "nodemon",
     "build": "rm -rf dist && tsc",
-    "start": "npm run build && node dist/index.js",
+    "start": "yarn run build && node dist/index.js",
     "watch": "tsc --watch -p ./tsconfig.json",
     "start:dev": "nodemon ./dist"
   },

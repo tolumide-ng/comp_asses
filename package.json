@@ -12,8 +12,8 @@
     "build:client": "cd client && rm -rf dist && webpack --mode production",
     "build:api": "cd api && rm -rf dist && tsc",
     "build": "yarn run build:api && yarn run build:client",
-    "start:client": "yarn run build:client && cd client && yarn run start",
-    "start:api": "yarn run build:api && cd api && yarn run start",
+    "start:client": "cd client && yarn run start",
+    "start:api": "cd api && yarn run start",
     "start": "yarn run start:api && yarn run start:client"
   },
   "keywords": [],
