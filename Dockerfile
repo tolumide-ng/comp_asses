@@ -1,6 +1,7 @@
 FROM node:14
-RUN apk update && apk add bash && apk add yarn
-RUN apk add git
+# RUN apk update && apk add bash && apk add yarn
+# RUN apk add git
+RUN npm install yarn
 RUN yarn
 RUN mkdir /app
 WORKDIR /app
